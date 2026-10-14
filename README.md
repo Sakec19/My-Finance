@@ -22,11 +22,11 @@ Then open http://localhost:8000 in Chrome/Edge. For iPhone installation, deploy 
 
 ## Important behavior and limitations
 - Currency is currently USD.
-- Data is stored in this browser's local storage. Clearing browser/site data can delete it; export backups regularly. No cloud sync is implemented.
+- Data is stored in this browser's local storage. Clearing browser/site data can delete it; export backups regularly. Optional encrypted Google Drive backup is available after configuring OAuth (see `CLOUD_SETUP.md`); it is not continuous multi-device sync.
 - The payment plan is a rough planning aid, not a bank connection or payment instruction. It splits the entered balance into two suggested amounts and displays the minimum payment. Verify issuer statement, available cash, interest, pending charges and payment processing time yourself.
 - Due dates should be updated to the next actual due date each cycle. A card due date is stored as a single date, not an automatically recurring schedule.
 - Web notifications are not reliable scheduled alarms when the browser is closed or suspended. This version checks reminders when opened and while the page is active. Reliable background iOS notifications need additional native/push infrastructure.
-- Cloud backup, encryption-at-rest beyond browser/platform storage, biometric lock, multi-device sync, and bank integrations are not implemented.
+- Google Drive encrypted cloud backup is optional (see `CLOUD_SETUP.md`). Encryption of local browser storage, biometric lock, multi-device conflict-aware sync, and bank integrations are not implemented.
 
 ## Test checklist
 1. Add an account with opening balance $1,000.
@@ -47,7 +47,7 @@ Select **Payment calendar** to view previous/current/next months. For each credi
 
 Select **Mark paid** for each installment. Enter the actual amount and the actual payment date. A recorded partial payment reduces the remaining cycle amount; the other unrecorded installment is recalculated. An **Undo** action removes the record and recalculates the plan. Payment history is saved locally and included in JSON backups; **Export payments CSV** is also available. A payment marked here does not move money or automatically debit your bank account. The card balance is a per-cycle starting target snapshot; the app does not retrieve issuer statements, interest, new purchases, or roll a prior cycle's remainder into the next cycle. Reconcile and edit balances each billing cycle.
 
-Local browser persistence is not a secure encrypted vault. No actual cloud backup or closed-app scheduled iOS notification mechanism is included. For financial data, use your device's security features and store downloaded backups securely.
+Local browser persistence is not a secure encrypted vault. Encrypted Google Drive backup is optional after OAuth configuration, but cannot operate with the app closed or offline. No closed-app scheduled iOS notification mechanism is included. For financial data, use your device's security features and store downloaded backups securely.
 
 
 ## Version 4: bundled offline issuer-style artwork and calendar

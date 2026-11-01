@@ -1,38 +1,402 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#173f35"><meta name="description" content="Offline-first personal finance tracker"><link rel="manifest" href="manifest.json"><title>MyFinance</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#173f35"><meta name="description" content="Monviora — your money, your world. Personal finance across countries."><meta name="color-scheme" content="light dark"><link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="./icon-32.png">
+<link rel="icon" type="image/png" sizes="48x48" href="./icon-48.png">
+<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+<meta name="apple-mobile-web-app-title" content="Monviora">
+<meta property="og:title" content="Monviora — Your money. Your world.">
+<meta property="og:description" content="Manage your finances across countries, in one place.">
+<meta property="og:image" content="./monviora-brand-preview.png">
+<title>Monviora — Your money. Your world.</title>
 <style>
 :root{--bg:#f4f7f5;--card:#fff;--ink:#1b2b25;--muted:#64736b;--brand:#173f35;--mint:#dcefe5;--line:#dfe7e2;--red:#b93838;--gold:#f1e5bd}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:10px 14px;background:var(--brand);color:#fff;font-weight:650}button.secondary{background:#e8efeb;color:var(--brand)}button.danger{background:#fae6e4;color:#982c2c}input,select,textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:10px;background:#fff;color:var(--ink)}label{display:block;font-size:12px;color:var(--muted);font-weight:700;margin-bottom:5px}.app{max-width:1080px;margin:auto;padding:18px 16px 80px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.brand{display:flex;align-items:center;gap:10px}.logo{width:42px;height:42px;background:var(--brand);color:#fff;border-radius:14px;display:grid;place-items:center;font-size:22px}.brand h1{font-size:22px;margin:0}.sub{color:var(--muted);font-size:13px}.tabs{display:flex;gap:7px;overflow:auto;padding:16px 0}.tabs button{white-space:nowrap;background:#e5ece8;color:var(--brand)}.tabs button.active{background:var(--brand);color:#fff}.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;min-width:0}.metric .label{color:var(--muted);font-size:12px;font-weight:700}.metric .num{font-size:clamp(21px,3vw,29px);font-weight:750;letter-spacing:-.5px;margin-top:6px;overflow-wrap:anywhere}.positive{color:#16714e}.negative{color:var(--red)}.section{margin-top:18px}.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px}.sectionhead h2{font-size:18px;margin:0}.toolbar{display:flex;gap:8px;flex-wrap:wrap}.toolbar button{font-size:13px}.two{display:grid;grid-template-columns:1.2fr .8fr;gap:12px}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.full{grid-column:1/-1}.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.rowtitle{font-weight:700}.tiny{font-size:12px;color:var(--muted)}.actions{display:flex;gap:6px}.actions button{padding:6px 9px;font-size:12px}.pill{font-size:11px;background:var(--mint);color:var(--brand);padding:4px 8px;border-radius:999px;display:inline-block}.empty{padding:25px 8px;text-align:center;color:var(--muted)}.barrow{display:grid;grid-template-columns:minmax(70px,120px) 1fr auto;gap:8px;align-items:center;margin:12px 0;font-size:13px}.barbg{height:10px;background:#e7eee9;border-radius:99px;overflow:hidden}.bar{height:100%;background:#41876b;border-radius:99px}.notice{padding:12px;border-radius:12px;background:#edf5ef;color:#315e49;font-size:13px;margin-top:12px}.warn{background:#fff5df;color:#775716}.hidden{display:none!important}dialog{border:0;border-radius:20px;width:min(560px,calc(100% - 24px));padding:20px;box-shadow:0 20px 80px #173f3533}dialog::backdrop{background:#10271f77}.dialoghead{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.dialoghead h2{margin:0;font-size:20px}.footnote{font-size:12px;color:var(--muted);margin-top:12px}canvas{width:100%;max-height:220px}.bottomnote{font-size:12px;color:var(--muted);margin-top:25px;text-align:center}@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.two{grid-template-columns:1fr}.app{padding:14px 12px 70px}.brand h1{font-size:20px}.metric .num{font-size:23px}}@media(max-width:390px){.formgrid{grid-template-columns:1fr}.full{grid-column:auto}}
-.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.cal-day{min-height:100px;background:#f7faf7;border:1px solid var(--line);border-radius:10px;padding:6px;min-width:0}.cal-day.dim{opacity:.42}.cal-head{font-size:12px;font-weight:750;text-align:center;color:var(--muted);padding:6px}.cal-num{font-weight:700;font-size:12px}.cal-event{display:block;border-radius:6px;background:#dcefe5;color:#173f35;padding:4px;margin-top:4px;font-size:11px;overflow-wrap:anywhere}.cal-event.done{background:#e4e8ef;color:#345}.cal-event.overdue{background:#fce2df;color:#882d26}@media(max-width:760px){.cal-day{min-height:77px;padding:3px}.cal-event{font-size:9px;padding:3px}.cal-num{font-size:11px}} </style></head>
+.calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}.cal-day{min-height:100px;background:#f7faf7;border:1px solid var(--line);border-radius:10px;padding:6px;min-width:0}.cal-day.dim{opacity:.42}.cal-head{font-size:12px;font-weight:750;text-align:center;color:var(--muted);padding:6px}.cal-num{font-weight:700;font-size:12px}.cal-event{display:block;border-radius:6px;background:#dcefe5;color:#173f35;padding:4px;margin-top:4px;font-size:11px;overflow-wrap:anywhere}.cal-event.done{background:#e4e8ef;color:#345}.cal-event.overdue{background:#fce2df;color:#882d26}@media(max-width:760px){.cal-day{min-height:77px;padding:3px}.cal-event{font-size:9px;padding:3px}.cal-num{font-size:11px}} 
+.country-control{display:flex;align-items:center;gap:7px;font-size:13px;color:var(--muted);font-weight:700}
+.country-control select{min-height:44px;max-width:210px;background:var(--card);color:var(--ink);border:2px solid var(--brand)}
+@media(max-width:550px){.country-control{width:100%;order:-2}.country-control select{flex:1;max-width:none}}
+.country-note{font-size:12px;color:var(--muted);margin-top:7px}
+#addCountryBtn{min-height:44px}
+#countryManager{max-height:85vh;overflow:auto}
+#selectedCountryList .row{gap:8px}
+#selectedCountryList .row button{flex-shrink:0}
+.country-control select{min-width:165px}
+/* Prominent iPhone-friendly theme controls */
+.theme-quick-toggle{display:inline-flex;gap:7px;align-items:center;justify-content:center;min-height:44px;white-space:nowrap;border:1px solid var(--line);background:var(--soft);color:var(--ink)}
+.theme-quick-toggle:focus-visible,.header-theme select:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+.theme-quick-toggle #themeQuickIcon{font-size:18px}
+@media(max-width:550px){.theme-quick-toggle{flex:1}.header-theme{order:0!important;flex:1!important}
+.header-theme select{min-width:0!important;width:100%;min-height:44px}
+.top .toolbar{display:flex;align-items:stretch;gap:8px}
+#notifyBtn,#addBtn{flex:1}}
+/* Appearance options always visible in the header */
+.header-theme{display:flex;align-items:center;gap:7px;margin:0;font-size:13px;color:var(--muted)}
+.header-theme select{width:auto;min-width:112px;background:var(--card);color:var(--ink);border:2px solid var(--brand);font-weight:700;padding:9px}
+@media(max-width:550px){.header-theme{order:-1}.header-theme span{display:none}.top .toolbar{width:100%;justify-content:space-between}}
+/* Settings-based theme override; follows the OS when set to System. */
+:root{color-scheme:light;--field:#fff;--nav:#e5ece8;--soft:#e8efeb;--danger-bg:#fae6e4;--bar-bg:#e7eee9;--calendar-bg:#f7faf7;--done-bg:#e4e8ef;--overdue-bg:#fce2df;--notice-bg:#edf5ef;--warn-bg:#fff5df}
+:root[data-theme="dark"]{color-scheme:dark;--bg:#0c1715;--card:#172522;--ink:#ecf5f1;--muted:#afc3b9;--brand:#87d7b1;--mint:#284b3b;--line:#334942;--red:#ff9b99;--gold:#6c5830;--field:#20332e;--nav:#243d35;--soft:#26463a;--danger-bg:#533331;--bar-bg:#344a42;--calendar-bg:#1d302a;--done-bg:#334253;--overdue-bg:#553232;--notice-bg:#244133;--warn-bg:#4a3b24}
+:root[data-theme="dark"] .positive{color:#8fdfb5}
+:root[data-theme="dark"] .negative{color:#ffa3a0}
+:root[data-theme="dark"] .notice{color:#cce9d9}
+:root[data-theme="dark"] .warn{color:#ffe1a9}
+:root[data-theme="dark"] .cal-event{color:#daffeb}
+:root[data-theme="dark"] .cal-event.done{color:#d7e4ff}
+:root[data-theme="dark"] .cal-event.overdue{color:#ffceca}
+:root[data-theme="dark"] .pill,:root[data-theme="dark"] .tabs button,:root[data-theme="dark"] button.secondary{color:#e2ffed}
+:root[data-theme="dark"] button:not(.secondary):not(.danger){color:#08241a}
+:root[data-theme="dark"] button.danger{color:#ffd8d5}
+body{transition:background-color .16s,color .16s}
+input,select,textarea{background:var(--field);color:var(--ink)}.tabs button{background:var(--nav)}button.secondary{background:var(--soft)}button.danger{background:var(--danger-bg);color:var(--red)}
+.barbg{background:var(--bar-bg)}.cal-day{background:var(--calendar-bg)}.cal-event.done{background:var(--done-bg)}.cal-event.overdue{background:var(--overdue-bg)}.notice{background:var(--notice-bg)}.notice.warn{background:var(--warn-bg)}
+:root[data-theme="dark"] dialog{background:var(--card);color:var(--ink)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]){color-scheme:dark;--bg:#0c1715;--card:#172522;--ink:#ecf5f1;--muted:#afc3b9;--brand:#87d7b1;--mint:#284b3b;--line:#334942;--red:#ff9b99;--field:#20332e;--nav:#243d35;--soft:#26463a;--danger-bg:#533331;--bar-bg:#344a42;--calendar-bg:#1d302a;--done-bg:#334253;--overdue-bg:#553232;--notice-bg:#244133;--warn-bg:#4a3b24}}
+
+.country-portfolio{margin-top:8px}
+.country-balance-carousel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:2px;overscroll-behavior-inline:contain;padding:4px 3px 18px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.country-balance-card{flex:0 0 clamp(255px,75vw,350px);scroll-snap-align:start;background:linear-gradient(130deg,#204e42,#12332c);color:#fff;border-radius:21px;padding:21px;min-height:185px;border:1px solid #476e61;display:flex;flex-direction:column;justify-content:space-between;gap:15px;text-align:left;box-shadow:0 8px 24px #091e1622}
+.country-balance-card[aria-current=true]{outline:3px solid #69b390;outline-offset:1px}
+.country-card-top{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.country-card-name{font-size:16px;font-weight:750}
+.country-card-currency{font-size:12px;color:#dfefe9}
+.country-balance-label{color:#d0e7dc;font-size:12px}
+.country-balance-num{font-size:clamp(24px,4vw,33px);font-weight:800;letter-spacing:-.5px;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+.country-balance-hidden{letter-spacing:3px}
+.country-card-bottom{font-size:12px;opacity:.85}
+.country-gallery-caption{font-size:12px;color:var(--muted);padding:0 4px}
+.country-empty{flex:0 0 100%;padding:20px;border:1px dashed var(--line);border-radius:16px;background:var(--card);color:var(--muted)}
+html[data-theme=dark] .country-balance-card{background:linear-gradient(135deg,#234337,#102921);border-color:#49695a}
+@media(max-width:600px){.country-portfolio .sectionhead{align-items:flex-start}.country-portfolio .toolbar{width:100%}.country-portfolio .toolbar button:first-child{flex:1}.country-balance-card{flex-basis:85vw}}
+
+.country-balance-card{cursor:default}
+.country-card-top{gap:8px;flex-wrap:wrap}
+.country-card-name{flex:1;min-width:90px}
+.balance-eye-button{border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.16);color:#fff;border-radius:999px;min-height:40px;padding:7px 13px;font-size:13px;font-weight:750;white-space:nowrap}
+.balance-eye-button:hover,.balance-eye-button:focus-visible{background:rgba(255,255,255,.28);outline:2px solid white;outline-offset:2px}
+.country-card-bottom{display:flex;align-items:center}
+.country-open-button{background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.35);color:white;padding:9px 13px;min-height:40px;font-size:12px}
+.country-open-button:focus-visible{outline:2px solid white;outline-offset:2px}
+.monviora-logo{width:48px;height:48px;border-radius:15px;overflow:hidden;display:block;background:#071d2a;box-shadow:0 3px 14px #07231a44}
+.monviora-logo img{display:block;width:100%;height:100%;object-fit:cover}
+:root[data-theme="dark"] .monviora-logo{box-shadow:0 0 0 1px #365b55,0 3px 14px #0005}
+</style></head>
 <body><main class="app">
-<header class="top"><div class="brand"><div class="logo">↗</div><div><h1>MyFinance</h1><div class="sub">Your money, in one calm place</div></div></div><div class="toolbar"><button class="secondary" id="notifyBtn">Enable reminders</button><button id="addBtn">＋ Add transaction</button></div></header>
+<header class="top"><div class="brand"><div class="logo monviora-logo"><img src="./icon-192.png" alt="Monviora icon" width="48" height="48"></div><div><h1>Monviora</h1><div class="sub">Your money. Your world.</div></div></div><div class="toolbar"><label class="country-control" for="countrySelect"><span>Country</span><select id="countrySelect" aria-label="Select financial country"></select></label><button id="addCountryBtn" class="secondary" type="button" title="Add or manage countries">＋ Countries</button><button type="button" class="theme-quick-toggle secondary" id="themeQuickToggle" aria-label="Switch between light and dark mode" title="Toggle light or dark mode"><span id="themeQuickIcon" aria-hidden="true">☾</span><span id="themeQuickLabel">Dark mode</span></button><label class="header-theme" for="themeHeaderSelect"><span>Appearance</span><select id="themeHeaderSelect" aria-label="Appearance theme"><option value="system">System</option><option value="light">☀ Light</option><option value="dark">☾ Dark</option></select></label><button class="secondary" id="notifyBtn">Enable reminders</button><button id="addBtn">＋ Add transaction</button></div></header>
+<div id="countryNote" class="country-note" role="status" aria-live="polite">Viewing United States financial records. Values are stored separately by country; no exchange-rate conversion is applied.</div>
 <nav class="tabs" aria-label="Main sections"><button class="active" data-tab="overview">Overview</button><button data-tab="transactions">Transactions</button><button data-tab="accounts">Bank accounts</button><button data-tab="cards">Credit cards</button><button data-tab="calendar">Payment calendar</button><button data-tab="savings">Savings goals</button><button data-tab="investments">Investments</button><button data-tab="settings">Backup & settings</button></nav>
-<section id="overview" class="page"><div class="sectionhead"><div><h2>Financial snapshot</h2><div class="sub" id="periodLabel">This month</div></div><select id="period" style="width:auto"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly" selected>Monthly</option><option value="all">All time</option></select></div>
+<section id="overview" class="page">
+<section class="country-portfolio section" aria-label="Country balances">
+ <div class="sectionhead"><div><h2>Your countries</h2><div class="sub">Swipe left to browse country balances, or use the arrows.</div></div>
+ <div class="toolbar">
+  <button type="button" id="toggleBalances" class="secondary" aria-pressed="false" aria-label="Show balances">◉ Show balances</button>
+  <button type="button" id="scrollCountriesPrev" class="secondary" aria-label="Previous country">←</button>
+  <button type="button" id="scrollCountriesNext" class="secondary" aria-label="Next country">→</button>
+ </div></div>
+ <div id="countryBalanceCarousel" class="country-balance-carousel" role="region" aria-label="Country balance cards" tabindex="0"></div>
+ <div class="country-gallery-caption" id="countryGalleryCaption" aria-live="polite"></div>
+</section>
+<div class="sectionhead"><div><h2>Financial snapshot</h2><div class="sub" id="periodLabel">This month</div></div><select id="period" style="width:auto"><option value="daily">Daily</option><option value="weekly">Weekly</option><option value="monthly" selected>Monthly</option><option value="all">All time</option></select></div>
 <div class="grid"><div class="card metric"><div class="label">MONEY IN</div><div class="num positive" id="incomeTotal">$0.00</div></div><div class="card metric"><div class="label">MONEY OUT</div><div class="num negative" id="expenseTotal">$0.00</div></div><div class="card metric"><div class="label">NET CASH FLOW</div><div class="num" id="netTotal">$0.00</div></div><div class="card metric"><div class="label">BANK BALANCES</div><div class="num" id="bankTotal">$0.00</div></div></div>
-<div class="two section"><div class="card"><div class="sectionhead"><h2>Spending by category</h2><span class="pill">Expenses</span></div><div id="spendingChart"></div></div><div class="card"><div class="sectionhead"><h2>Upcoming checklist</h2><span class="pill">Plan ahead</span></div><div id="remindersList"></div><div class="notice">MyFinance suggests payment plans and reminders; it does not send payments to your bank or card issuer.</div></div></div>
+<div class="two section"><div class="card"><div class="sectionhead"><h2>Spending by category</h2><span class="pill">Expenses</span></div><div id="spendingChart"></div></div><div class="card"><div class="sectionhead"><h2>Upcoming checklist</h2><span class="pill">Plan ahead</span></div><div id="remindersList"></div><div class="notice">Monviora suggests payment plans and reminders; it does not send payments to your bank or card issuer.</div></div></div>
 <div class="card section"><div class="sectionhead"><h2>Recent transactions</h2><button class="secondary" data-goto="transactions">View all</button></div><div id="recentList"></div></div></section>
 <section id="transactions" class="page hidden"><div class="sectionhead"><div><h2>Transactions</h2><div class="sub">Income and expenses</div></div><button id="addTxn2">＋ Add transaction</button></div><div class="card"><div class="formgrid"><div><label>Search</label><input id="txnSearch" placeholder="Category, note, amount…"></div><div><label>Type</label><select id="txnFilter"><option value="all">All transactions</option><option value="income">Income</option><option value="expense">Expenses</option></select></div></div><div id="transactionsList"></div></div></section>
 <section id="accounts" class="page hidden"><div class="sectionhead"><div><h2>Bank accounts</h2><div class="sub">Balances update when you record transactions assigned to an account.</div></div><button id="addAccount">＋ Add account</button></div><div id="accountsList" class="grid"></div><div class="notice">Opening balances are your starting point. Add an account transfer as two entries only if you want to track both sides; transfers are not automatically inferred.</div></section>
 <section id="cards" class="page hidden"><div class="sectionhead"><div><h2>Credit cards</h2><div class="sub">Payment planning, due dates, and minimums</div></div><button id="addCard">＋ Add card</button></div><div id="cardsList" class="grid"></div><div class="card section"><h2>Twice-monthly payment plan</h2><div class="sub">Two scheduled payments per billing cycle: the first 15 days before the final target, and the final 3 days before the due date. Dates are calculated from your entered due date and repeat monthly.</div><div id="paymentPlan"></div><div class="notice warn">The plan is an estimate based on balances you enter. Confirm statement balance, minimum due, processing time, and available cash with your issuer before paying.</div></div></section>
 <section id="savings" class="page hidden"><div class="sectionhead"><div><h2>Savings goals</h2><div class="sub">A practical roadmap to your target date</div></div><button id="addGoal">＋ Add goal</button></div><div id="goalsList" class="grid"></div></section>
 <section id="investments" class="page hidden"><div class="sectionhead"><div><h2>Investments</h2><div class="sub">Track positions offline using prices you enter. This is not a live market feed.</div></div><div class="toolbar"><button class="secondary" id="exportInvestments">Export investments CSV</button><button id="addInvestment">＋ Add holding</button></div></div><div class="grid"><div class="card metric"><div class="label">PORTFOLIO VALUE</div><div class="num" id="investmentValue">$0.00</div></div><div class="card metric"><div class="label">COST BASIS</div><div class="num" id="investmentCost">$0.00</div></div><div class="card metric"><div class="label">UNREALIZED GAIN / LOSS</div><div class="num" id="investmentGain">$0.00</div></div><div class="card metric"><div class="label">RETURN ON COST</div><div class="num" id="investmentReturn">0.00%</div></div></div><div class="two section"><div class="card"><div class="sectionhead"><h2>Holdings</h2><span class="pill">Manual prices</span></div><div id="investmentsList"></div></div><div class="card"><h2>Allocation by asset type</h2><div id="investmentAllocation"></div><div class="notice">Prices and holdings are entered manually. Investment purchases are tracked separately from spending and do not automatically debit bank accounts. Update bank transfers separately to avoid inconsistent balances.</div></div></div></section>
-<section id="calendar" class="page hidden"><div class="sectionhead"><div><h2>Payment calendar</h2><div class="sub">Review both installments for each card, record actual payments, and see the remaining amount recalculate.</div></div><div class="toolbar"><button class="secondary" id="prevCal">← Previous</button><button class="secondary" id="todayCal">This month</button><button class="secondary" id="nextCal">Next →</button></div></div><div class="card"><div class="sectionhead"><h2 id="calendarTitle">Calendar</h2><span class="pill">Payment plans</span></div><div id="calendarGrid" class="calendar-grid"></div></div><div class="card section"><div class="sectionhead"><h2>Installments and payment history</h2><button class="secondary" id="exportPayments">Export payments CSV</button></div><div id="calendarDetails"></div><div class="notice warn">Marking a payment completed only records it in MyFinance; it does not transfer money. Actual issuer balances and bank transactions must be updated separately. Allow extra processing time for weekends/holidays.</div></div></section><section id="settings" class="page hidden"><div class="sectionhead"><div><h2>Backup & settings</h2><div class="sub">Your data stays in this browser unless you export it.</div></div></div><div class="grid"><div class="card"><h3>CSV export</h3><p class="sub">Export transactions for Excel, Numbers, LibreOffice, or other spreadsheet software.</p><button id="exportCsv">Export transactions CSV</button></div><div class="card"><h3>Full backup</h3><p class="sub">Save transactions, accounts, cards, goals, investments, and preferences to a JSON file.</p><button id="backupBtn">Download backup</button></div><div class="card"><h3>Restore backup</h3><p class="sub">Restore a previous MyFinance JSON backup. This replaces the current data.</p><input id="restoreFile" type="file" accept="application/json,.json"><button id="restoreBtn" class="secondary" style="margin-top:8px">Restore selected backup</button></div><div class="card"><h3>Optional cloud backup</h3><p class="sub">Cloud sync is not connected in this version. Use encrypted storage you control if you add sync later.</p><span class="pill">Not configured</span></div></div><div class="card section"><h3>Reminders & privacy</h3><p class="sub">Notifications depend on browser permission and device support. This web app cannot guarantee that a reminder fires while the browser is fully closed. For dependable scheduled iOS alerts, a native wrapper or supported push-notification service may be needed.</p><div class="toolbar"><button id="enableNotify2">Enable notifications</button><button class="secondary" id="checkReminders">Check reminders now</button><button class="danger" id="clearData">Delete all local data</button></div><div id="settingsStatus" class="footnote"></div></div></section>
-<div class="bottomnote">MyFinance • Offline-first personal finance tracker • Keep your backups safe</div></main>
+<section id="calendar" class="page hidden"><div class="sectionhead"><div><h2>Payment calendar</h2><div class="sub">Review both installments for each card, record actual payments, and see the remaining amount recalculate.</div></div><div class="toolbar"><button class="secondary" id="prevCal">← Previous</button><button class="secondary" id="todayCal">This month</button><button class="secondary" id="nextCal">Next →</button></div></div><div class="card"><div class="sectionhead"><h2 id="calendarTitle">Calendar</h2><span class="pill">Payment plans</span></div><div id="calendarGrid" class="calendar-grid"></div></div><div class="card section"><div class="sectionhead"><h2>Installments and payment history</h2><button class="secondary" id="exportPayments">Export payments CSV</button></div><div id="calendarDetails"></div><div class="notice warn">Marking a payment completed only records it in Monviora; it does not transfer money. Actual issuer balances and bank transactions must be updated separately. Allow extra processing time for weekends/holidays.</div></div></section><section id="settings" class="page hidden"><div class="sectionhead"><div><h2>Backup & settings</h2><div class="sub">Your data stays on this device until you enable cloud sync.</div></div></div><div class="grid"><div class="card"><h3>CSV export</h3><p class="sub">Export transactions for Excel, Numbers, LibreOffice, or other spreadsheet software.</p><button id="exportCsv">Export transactions CSV</button></div><div class="card"><h3>Full backup</h3><p class="sub">Save transactions, accounts, cards, goals, investments, and preferences to a JSON file.</p><button id="backupBtn">Download backup</button></div><div class="card"><h3>Restore backup</h3><p class="sub">Restore a previous Monviora JSON backup. This replaces the current data.</p><input id="restoreFile" type="file" accept="application/json,.json"><button id="restoreBtn" class="secondary" style="margin-top:8px">Restore selected backup</button></div><div class="card"><h3>☁ Cloud sync</h3><p class="sub">Offline-first cloud backup across your own devices. Requires a Firebase project and email sign-in.</p><div id="cloudConnection" class="pill">Checking configuration…</div><p id="cloudStatus" class="footnote" role="status" aria-live="polite">Local-only until configured.</p><div id="cloudLogin" class="cloud-auth"><label for="cloudEmail">Email</label><input id="cloudEmail" type="email" autocomplete="email" placeholder="you@example.com"><label for="cloudPassword">Password</label><input id="cloudPassword" type="password" autocomplete="current-password" placeholder="Password (8+ characters)"><div class="toolbar" style="margin-top:10px"><button type="button" id="cloudSignIn">Sign in</button><button type="button" class="secondary" id="cloudSignUp">Create account</button></div></div><div id="cloudActions" class="hidden"><div class="toolbar"><button type="button" id="cloudSyncNow">Sync now</button><button type="button" class="secondary" id="cloudRestore">Restore from cloud</button><button type="button" class="secondary" id="cloudSignOut">Sign out</button></div></div><p class="tiny">First sync requires your confirmation. Subsequent local edits auto-sync when online; conflicts pause syncing instead of overwriting silently. Export a JSON backup before first sync.</p></div></div><div class="card section"><h3>Appearance</h3><div style="max-width:290px"><label for="themeSelect">Color theme</label><select id="themeSelect"><option value="system">Follow device setting</option><option value="light">Light</option><option value="dark">Dark</option></select></div><div class="footnote">Your choice is saved on this device and included in full backups.</div></div><div class="card section"><h3>Reminders & privacy</h3><p class="sub">Web reminders check upcoming credit-card installments while Monviora is open. Browser notification permission and HTTPS are required. For reliable alerts when the browser is closed, a separate server-side web-push scheduler must be configured; this edition does not include that service.</p><div class="toolbar"><button id="enableNotify2">Enable payment reminders</button><button class="secondary" id="checkReminders">Check reminders now</button><button class="danger" id="clearData">Delete all local data</button></div><div id="settingsStatus" class="footnote"></div></div></section>
+<div class="bottomnote">Monviora • Offline-first personal finance tracker • Keep your backups safe</div></main>
+<dialog id="countryManager" aria-labelledby="countryManagerTitle">
+ <div class="dialoghead"><h2 id="countryManagerTitle">Manage countries</h2><button class="secondary" type="button" id="closeCountryManager">Close</button></div>
+ <p class="sub">Add countries to your dropdown. Removing a country hides it without deleting its financial records. You can add it again later.</p>
+ <div class="formgrid">
+  <div class="full"><label for="countrySearch">Find a country</label><input id="countrySearch" type="search" placeholder="Search by country name or currency"></div>
+  <div class="full"><label for="availableCountry">Available countries</label><select id="availableCountry"></select></div>
+  <div class="full"><button type="button" id="confirmAddCountry">＋ Add selected country</button></div>
+ </div>
+ <div class="section"><div class="sectionhead"><h3>Countries in your dropdown</h3></div><div id="selectedCountryList"></div></div>
+</dialog>
 <dialog id="modal"><div class="dialoghead"><h2 id="modalTitle">Add transaction</h2><button class="secondary" id="closeModal">Close</button></div><form id="editorForm"><div id="formFields" class="formgrid"></div><div class="toolbar" style="margin-top:18px"><button type="submit">Save</button><button type="button" class="secondary" id="cancelModal">Cancel</button></div></form></dialog>
 <script>
 (()=>{'use strict';
-const DB='myfinance-local-v1';let state={transactions:[],accounts:[],cards:[],goals:[],investments:[],payments:[],settings:{lastReminderDate:''}};let editing=null,editorKind='transaction';
-const $=id=>document.getElementById(id),today=()=>new Date().toISOString().slice(0,10),uid=()=>crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),money=n=>new Intl.NumberFormat(undefined,{style:'currency',currency:'USD'}).format(Number(n)||0),num=v=>Number(v)||0,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function load(){try{const raw=localStorage.getItem(DB);if(raw){const x=JSON.parse(raw);state={...state,...x,investments:Array.isArray(x.investments)?x.investments:[],settings:{...state.settings,...x.settings}}}}catch(e){console.error(e);alert('Could not read saved data. Exported backups may help recover it.')}}function save(){try{localStorage.setItem(DB,JSON.stringify(state))}catch(e){alert('Could not save data. Browser storage may be full; export a backup and free space.');throw e}render()}
+const DB='myfinance-local-v1', MULTI_DB='myfinance-country-profiles-v1';
+const COUNTRY_META={"US":{"name":"United States","currency":"USD"},"IN":{"name":"India","currency":"INR"},"GB":{"name":"United Kingdom","currency":"GBP"},"CA":{"name":"Canada","currency":"CAD"},"AU":{"name":"Australia","currency":"AUD"},"AE":{"name":"United Arab Emirates","currency":"AED"},"DE":{"name":"Germany","currency":"EUR"},"FR":{"name":"France","currency":"EUR"},"IE":{"name":"Ireland","currency":"EUR"},"NL":{"name":"Netherlands","currency":"EUR"},"JP":{"name":"Japan","currency":"JPY"},"SG":{"name":"Singapore","currency":"SGD"},"NZ":{"name":"New Zealand","currency":"NZD"},"CH":{"name":"Switzerland","currency":"CHF"},"ZA":{"name":"South Africa","currency":"ZAR"},"BR":{"name":"Brazil","currency":"BRL"},"MX":{"name":"Mexico","currency":"MXN"},"PH":{"name":"Philippines","currency":"PHP"},"NG":{"name":"Nigeria","currency":"NGN"},"KE":{"name":"Kenya","currency":"KES"},"SA":{"name":"Saudi Arabia","currency":"SAR"},"SE":{"name":"Sweden","currency":"SEK"}};
+const emptyProfile=()=>({transactions:[],accounts:[],cards:[],goals:[],investments:[],payments:[],settings:{lastReminderDate:'',theme:'system',paymentRemindersEnabled:false}});
+const profileKeys=['transactions','accounts','cards','goals','investments','payments'];
+function normalizeProfile(raw){
+ const p=emptyProfile(),value=raw&&typeof raw==='object'?raw:{};
+ for(const key of profileKeys)if(Array.isArray(value[key]))p[key]=value[key];
+ p.settings={...p.settings,...(value.settings&&typeof value.settings==='object'?value.settings:{})};
+ return p;
+}
+function normalizeStore(raw){
+ const input=raw&&typeof raw==='object'?raw:{},countries={};
+ const provided=input.countryProfiles||input.countries;
+ if(provided&&typeof provided==='object'&&!Array.isArray(provided)){
+  for(const [code,profile] of Object.entries(provided))
+   if(COUNTRY_META[code])countries[code]=normalizeProfile(profile);
+ }else countries.US=normalizeProfile(input); // Legacy backup was denominated in USD.
+ const candidates=Array.isArray(input.selectedCountries)
+  ?input.selectedCountries:[...Object.keys(countries),input.selectedCountry||'US'];
+ const selectedCountries=[...new Set(candidates.filter(c=>COUNTRY_META[c]))];
+ if(!selectedCountries.length)selectedCountries.push('US');
+ const selectedCountry=selectedCountries.includes(input.selectedCountry)?input.selectedCountry:selectedCountries[0];
+ return {version:5,countries,selectedCountry,selectedCountries};
+}
+let countryStore={version:5,countries:{},selectedCountry:'US',selectedCountries:['US']};
+let activeCountry='US',state=emptyProfile(),editing=null,editorKind='transaction';
+const $=id=>document.getElementById(id),today=()=>new Date().toISOString().slice(0,10),uid=()=>crypto.randomUUID?crypto.randomUUID():Date.now().toString(36)+Math.random().toString(36).slice(2),money=n=>new Intl.NumberFormat(undefined,{style:'currency',currency:COUNTRY_META[activeCountry].currency}).format(Number(n)||0),num=v=>Number(v)||0,esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function countryHasData(profile){
+ return !!profile && profileKeys.some(k=>Array.isArray(profile[k])&&profile[k].length>0);
+}
+function displayedCountries(){
+ // Show only added country profiles with actual financial records.
+ return countryStore.selectedCountries.filter(code=>COUNTRY_META[code]&&countryHasData(countryStore.countries[code]));
+}
+function refreshCountryDropdown(){
+ const select=$('countrySelect'),visible=displayedCountries();
+ select.replaceChildren();
+ if(!visible.length){
+  const option=document.createElement('option');
+  option.value='';option.textContent='No countries with data yet';
+  select.appendChild(option);select.value='';
+  return;
+ }
+ for(const code of visible){
+  const meta=COUNTRY_META[code],option=document.createElement('option');
+  option.value=code;option.textContent=`${meta.name} (${meta.currency})`;
+  select.appendChild(option);
+ }
+ // A newly added empty country can be edited through Countries → Open.
+ if(visible.includes(activeCountry))select.value=activeCountry;
+ else{
+  const option=document.createElement('option');
+  option.value='';option.textContent='Setting up country…';
+  option.disabled=true;option.selected=true;select.insertBefore(option,select.firstChild);
+  select.value='';
+ }
+}
+function applyCountry(){
+ refreshCountryDropdown();
+ const c=COUNTRY_META[activeCountry];
+ $('countryNote').textContent=`Viewing ${c.name} financial records (${c.currency}). Accounts, cards, transactions, goals, investments and payments are separated by country; no currency conversion.`;
+ document.title=`Monviora — ${c.name}`;
+}
+function renderCountryManager(){
+ const search=$('countrySearch').value.trim().toLowerCase();
+ const available=$('availableCountry');
+ available.replaceChildren();
+ const matches=Object.entries(COUNTRY_META)
+  .filter(([code,meta])=>!countryStore.selectedCountries.includes(code))
+  .filter(([code,meta])=>`${code} ${meta.name} ${meta.currency}`.toLowerCase().includes(search));
+ for(const [code,meta] of matches){
+  const option=document.createElement('option');
+  option.value=code;option.textContent=`${meta.name} (${meta.currency})`;
+  available.appendChild(option);
+ }
+ $('confirmAddCountry').disabled=matches.length===0;
+ const list=$('selectedCountryList');
+ list.replaceChildren();
+ for(const code of countryStore.selectedCountries){
+  const meta=COUNTRY_META[code];
+  const row=document.createElement('div');
+  row.className='row';
+  const label=document.createElement('span');
+  label.textContent=`${meta.name} (${meta.currency})${code===activeCountry?' — Current':''}`;
+  row.appendChild(label);
+  const openButton=document.createElement('button');
+  openButton.type='button';openButton.className='secondary';openButton.textContent='Open';
+  openButton.setAttribute('aria-label',`Open ${meta.name}`);
+  openButton.addEventListener('click',()=>{
+    $('countryManager').close();switchCountry(code);document.querySelector('[data-tab="overview"]')?.click();
+  });
+  row.appendChild(openButton);
+  const button=document.createElement('button');
+  button.type='button';button.className='secondary';button.textContent='Remove';
+  button.disabled=countryStore.selectedCountries.length===1;
+  button.setAttribute('aria-label',`Remove ${meta.name} from dropdown`);
+  button.addEventListener('click',()=>removeCountry(code));
+  row.appendChild(button);list.appendChild(row);
+ }
+}
+function addCountry(code){
+ if(!COUNTRY_META[code]||countryStore.selectedCountries.includes(code))return;
+ const previous=[...countryStore.selectedCountries];
+ countryStore.selectedCountries.push(code);
+ try{
+  switchCountry(code);
+  renderCountryManager();
+  $('countrySearch').value='';
+  renderCountryManager();
+ }catch(e){countryStore.selectedCountries=previous;alert(`Could not add country: ${e.message}`)}
+}
+function removeCountry(code){
+ if(!countryStore.selectedCountries.includes(code))return;
+ if(countryStore.selectedCountries.length===1){alert('Keep at least one country in your dropdown.');return}
+ const name=COUNTRY_META[code].name;
+ if(!confirm(`Hide ${name} from your dropdown? Its saved records will NOT be deleted.`))return;
+ const prior=[...countryStore.selectedCountries];
+ try{
+  persistProfiles();
+  countryStore.selectedCountries=prior.filter(c=>c!==code);
+  if(activeCountry===code){
+   activeCountry=countryStore.selectedCountries[0];
+   state=normalizeProfile(countryStore.countries[activeCountry]);
+  }
+  persistProfiles();applyCountry();applyTheme();render();
+  window.MyFinanceCloud?.onLocalSave?.();
+  renderCountryManager();
+ }catch(e){
+  countryStore.selectedCountries=prior;
+  alert(`Unable to remove country: ${e.message}`);
+ }
+}
+$('addCountryBtn').addEventListener('click',()=>{
+ $('countrySearch').value='';renderCountryManager();$('countryManager').showModal();
+});
+$('closeCountryManager').addEventListener('click',()=>$('countryManager').close());
+$('countrySearch').addEventListener('input',renderCountryManager);
+$('confirmAddCountry').addEventListener('click',()=>addCountry($('availableCountry').value));
+function persistProfiles(){
+ countryStore.countries[activeCountry]=JSON.parse(JSON.stringify(state));
+ countryStore.selectedCountry=activeCountry;
+ localStorage.setItem(MULTI_DB,JSON.stringify(countryStore));
+}
+function switchCountry(code){
+ if(!COUNTRY_META[code]||!countryStore.selectedCountries.includes(code)||code===activeCountry)return;
+ if($('modal').open)$('modal').close();
+ try{persistProfiles();activeCountry=code;
+  const priorTheme=state.settings?.theme||'system';
+  state=normalizeProfile(countryStore.countries[code]);
+  if(!countryStore.countries[code])state.settings.theme=priorTheme;
+  persistProfiles();applyCountry();applyTheme();render();window.MyFinanceCloud?.onLocalSave?.();
+ }catch(err){alert('Country switch failed: '+err.message);$('countrySelect').value=activeCountry}
+}
+$('countrySelect').addEventListener('change',e=>switchCountry(e.target.value));
+function load(){
+ try{
+  const saved=localStorage.getItem(MULTI_DB);
+  if(saved)countryStore=normalizeStore(JSON.parse(saved));
+  else {
+   const legacy=localStorage.getItem(DB);
+   countryStore=legacy?normalizeStore(JSON.parse(legacy)):normalizeStore({});
+   // Keep the legacy key intact as a safety copy; it is not written after migration.
+   localStorage.setItem(MULTI_DB,JSON.stringify(countryStore));
+  }
+  activeCountry=countryStore.selectedCountry;
+  state=normalizeProfile(countryStore.countries[activeCountry]);
+  applyCountry();
+ }catch(e){console.error(e);alert('Could not load country profiles. Your older data has not been deleted.');}
+}
+function save(){
+ try{persistProfiles()}catch(e){alert('Could not save data. Browser storage may be full; export a backup and free space.');throw e}
+ applyTheme();render();queuePaymentReminderRefresh();window.MyFinanceCloud?.onLocalSave?.();
+}
+const themeMedia=window.matchMedia?.('(prefers-color-scheme: dark)');
+function applyTheme(){const theme=['system','light','dark'].includes(state.settings?.theme)?state.settings.theme:'system';const resolved=theme==='system'?(themeMedia?.matches?'dark':'light'):theme;document.documentElement.dataset.theme=resolved;$('themeSelect').value=theme;$('themeHeaderSelect').value=theme;
+const quickIcon=$('themeQuickIcon'),quickLabel=$('themeQuickLabel');
+if(quickIcon)quickIcon.textContent=resolved==='dark'?'☀':'☾';
+if(quickLabel)quickLabel.textContent=resolved==='dark'?'Light mode':'Dark mode';
+$('themeQuickToggle')?.setAttribute('aria-pressed',String(resolved==='dark'));document.querySelector('meta[name="theme-color"]')?.setAttribute('content',resolved==='dark'?'#0c1715':'#173f35');}
+themeMedia?.addEventListener?.('change',()=>{if(state.settings.theme==='system')applyTheme()});
+$('themeSelect').addEventListener('change',e=>{state.settings.theme=e.target.value;save()});
+$('themeHeaderSelect').addEventListener('change',e=>{state.settings.theme=e.target.value;save()});
+$('themeQuickToggle').addEventListener('click',()=>{
+ const currentlyDark=document.documentElement.dataset.theme==='dark';
+ state.settings.theme=currentlyDark?'light':'dark';save();
+});
+
+// Web-only reminders are checked while this page is open; closed-browser delivery needs web push.
+function queuePaymentReminderRefresh(){ /* No native notification scheduler in the web edition. */ }
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)checkReminders(false)});
 function activeTransactions(){const p=$('period').value,now=new Date(),start=new Date(now);if(p==='daily')start.setHours(0,0,0,0);if(p==='weekly'){const day=(now.getDay()+6)%7;start.setDate(now.getDate()-day);start.setHours(0,0,0,0)}if(p==='monthly')start.setDate(1);return state.transactions.filter(t=>p==='all'||new Date(t.date+'T12:00:00')>=start&&new Date(t.date+'T12:00:00')<=now)}
 function categoryTotals(ts){const out={};ts.filter(t=>t.type==='expense').forEach(t=>out[t.category||'Other']=(out[t.category||'Other']||0)+num(t.amount));return Object.entries(out).sort((a,b)=>b[1]-a[1])}
 function acctBalance(a){return num(a.opening)+state.transactions.filter(t=>t.accountId===a.id).reduce((s,t)=>s+(t.type==='income'?1:-1)*num(t.amount),0)}
-function render(){renderOverview();renderTransactions();renderAccounts();renderCards();renderCalendar();renderGoals();renderInvestments();renderSettings();}
-function renderOverview(){const ts=activeTransactions(),inc=ts.filter(t=>t.type==='income').reduce((s,t)=>s+num(t.amount),0),out=ts.filter(t=>t.type==='expense').reduce((s,t)=>s+num(t.amount),0);$('incomeTotal').textContent=money(inc);$('expenseTotal').textContent=money(out);$('netTotal').textContent=money(inc-out);$('netTotal').className='num '+(inc-out>=0?'positive':'negative');$('bankTotal').textContent=money(state.accounts.reduce((s,a)=>s+acctBalance(a),0));$('periodLabel').textContent=({daily:'Today',weekly:'This week',monthly:'This month',all:'All time'})[$('period').value];const cats=categoryTotals(ts),max=cats.length?cats[0][1]:1;$('spendingChart').innerHTML=cats.length?cats.map(([c,v])=>`<div class="barrow"><span>${esc(c)}</span><div class="barbg"><div class="bar" style="width:${Math.max(2,v/max*100)}%"></div></div><b>${money(v)}</b></div>`).join(''):'<div class="empty">Add expenses to see your spending breakdown.</div>';$('recentList').innerHTML=state.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(txnRow).join('')||'<div class="empty">No transactions yet. Add your first income or expense.</div>';renderReminders()}
+let balancesVisible=false;
+const revealedCountries=new Set();
+function countryBankBalance(profile){
+ const txns=Array.isArray(profile?.transactions)?profile.transactions:[];
+ const accounts=Array.isArray(profile?.accounts)?profile.accounts:[];
+ return accounts.reduce((total,a)=>{
+  const linked=txns.filter(t=>t.accountId===a.id).reduce((sum,t)=>
+   sum+(t.type==='income'?1:t.type==='expense'?-1:0)*num(t.amount),0);
+  return total+num(a.opening)+linked;
+ },0);
+}
+function displayCountryMoney(value,code){
+ return new Intl.NumberFormat(undefined,{style:'currency',currency:COUNTRY_META[code].currency}).format(value);
+}
+function renderCountryGallery(){
+ const carousel=$('countryBalanceCarousel');
+ if(!carousel)return;
+ const currentScroll=carousel.scrollLeft;
+ carousel.replaceChildren();
+ const codes=displayedCountries();
+ if(!codes.length){
+  const empty=document.createElement('div');empty.className='country-empty';
+  empty.textContent='No country has financial records yet. Select ＋ Countries, add a country, choose Open, and create your first account or transaction.';
+  carousel.appendChild(empty);
+ }
+ for(const code of codes){
+  const country=COUNTRY_META[code],profile=countryStore.countries[code];
+  const card=document.createElement('article');
+  card.className='country-balance-card';
+  card.setAttribute('aria-label',`${country.name} balance card`);
+  const isVisible=balancesVisible||revealedCountries.has(code);
+  card.setAttribute('aria-current',code===activeCountry?'true':'false');
+  const top=document.createElement('div');top.className='country-card-top';
+  const name=document.createElement('span');name.className='country-card-name';name.textContent=country.name;
+  const currency=document.createElement('span');currency.className='country-card-currency';currency.textContent=country.currency;
+  top.append(name,currency);
+  const reveal=document.createElement('button');
+  reveal.type='button';reveal.className='balance-eye-button';
+  reveal.textContent=isVisible?'◉ Hide':'◎ Show';
+  reveal.setAttribute('aria-pressed',String(isVisible));
+  reveal.setAttribute('aria-label',`${isVisible?'Hide':'Show'} ${country.name} balance`);
+  reveal.title=isVisible?'Hide balance':'Show balance';
+  reveal.addEventListener('click',()=>{
+    if(isVisible){balancesVisible=false;revealedCountries.delete(code)}
+    else revealedCountries.add(code);
+    renderCountryGallery();renderOverview();renderAccounts();
+  });
+  top.append(reveal);
+  const middle=document.createElement('div');
+  const label=document.createElement('div');label.className='country-balance-label';label.textContent='Current bank balance';
+  const value=document.createElement('div');
+  value.className='country-balance-num'+(isVisible?'':' country-balance-hidden');
+  value.textContent=isVisible?displayCountryMoney(countryBankBalance(profile),code):'••••••';
+  middle.append(label,value);
+  const bottom=document.createElement('div');bottom.className='country-card-bottom';
+  const openButton=document.createElement('button');
+  openButton.type='button';openButton.className='country-open-button';
+  openButton.textContent=code===activeCountry?'Current country':'Open '+country.name;
+  openButton.setAttribute('aria-label',`Open ${country.name} financial records`);
+  openButton.addEventListener('click',()=>switchCountry(code));
+  bottom.append(openButton);
+  card.append(top,middle,bottom);
+  carousel.appendChild(card);
+ }
+ carousel.scrollLeft=currentScroll;
+ $('countryGalleryCaption').textContent=codes.length?
+  `${codes.length} ${codes.length===1?'country':'countries'} with saved financial records • Balances ${balancesVisible?'visible':'hidden'} • Swipe left for more`:
+  'Countries only appear here and in the main dropdown after financial records have been added.';
+ $('toggleBalances').textContent=balancesVisible?'◉ Hide balances':'◎ Show balances';
+ $('toggleBalances').setAttribute('aria-pressed',String(balancesVisible));
+ $('toggleBalances').setAttribute('aria-label',balancesVisible?'Hide balances':'Show balances');
+}
+$('toggleBalances').addEventListener('click',()=>{balancesVisible=!balancesVisible;revealedCountries.clear();renderCountryGallery();renderOverview();renderAccounts();});
+$('scrollCountriesPrev').addEventListener('click',()=>{
+ const el=$('countryBalanceCarousel');el.scrollBy({left:-Math.max(el.clientWidth*.8,260),behavior:'smooth'});
+});
+$('scrollCountriesNext').addEventListener('click',()=>{
+ const el=$('countryBalanceCarousel');el.scrollBy({left:Math.max(el.clientWidth*.8,260),behavior:'smooth'});
+});
+function render(){refreshCountryDropdown();renderCountryGallery();renderOverview();renderTransactions();renderAccounts();renderCards();renderCalendar();renderGoals();renderInvestments();renderSettings();}
+function renderOverview(){const ts=activeTransactions(),inc=ts.filter(t=>t.type==='income').reduce((s,t)=>s+num(t.amount),0),out=ts.filter(t=>t.type==='expense').reduce((s,t)=>s+num(t.amount),0);$('incomeTotal').textContent=money(inc);$('expenseTotal').textContent=money(out);$('netTotal').textContent=money(inc-out);$('netTotal').className='num '+(inc-out>=0?'positive':'negative');$('bankTotal').textContent=(balancesVisible||revealedCountries.has(activeCountry))?money(state.accounts.reduce((s,a)=>s+acctBalance(a),0)):'••••••';$('periodLabel').textContent=({daily:'Today',weekly:'This week',monthly:'This month',all:'All time'})[$('period').value];const cats=categoryTotals(ts),max=cats.length?cats[0][1]:1;$('spendingChart').innerHTML=cats.length?cats.map(([c,v])=>`<div class="barrow"><span>${esc(c)}</span><div class="barbg"><div class="bar" style="width:${Math.max(2,v/max*100)}%"></div></div><b>${money(v)}</b></div>`).join(''):'<div class="empty">Add expenses to see your spending breakdown.</div>';$('recentList').innerHTML=state.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(txnRow).join('')||'<div class="empty">No transactions yet. Add your first income or expense.</div>';renderReminders()}
 function txnRow(t){return `<div class="row"><div><div class="rowtitle">${esc(t.note||t.category||'Transaction')}</div><div class="tiny">${esc(t.date)} · ${esc(t.category)} · ${t.type==='income'?'Income':'Expense'}</div></div><div style="text-align:right"><b class="${t.type==='income'?'positive':'negative'}">${t.type==='income'?'+':'−'}${money(t.amount)}</b><div class="actions"><button class="secondary" data-edit="transaction:${t.id}">Edit</button><button class="danger" data-delete="transaction:${t.id}">Delete</button></div></div></div>`}
 function renderTransactions(){const q=$('txnSearch').value.toLowerCase(),f=$('txnFilter').value;const ts=state.transactions.filter(t=>(f==='all'||t.type===f)&&[t.note,t.category,t.date,t.amount].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('transactionsList').innerHTML=ts.map(txnRow).join('')||'<div class="empty">No matching transactions.</div>'}
-function renderAccounts(){$('accountsList').innerHTML=state.accounts.map(a=>`<div class="card"><div class="sectionhead"><h2>${esc(a.name)}</h2><span class="pill">${esc(a.type)}</span></div><div class="num" style="font-size:25px;font-weight:750">${money(acctBalance(a))}</div><div class="tiny">Opening balance ${money(a.opening)}</div><div class="actions" style="margin-top:12px"><button class="secondary" data-edit="account:${a.id}">Edit</button><button class="danger" data-delete="account:${a.id}">Delete</button></div></div>`).join('')||'<div class="card empty">Add a bank account and its opening balance.</div>'}
+function renderAccounts(){$('accountsList').innerHTML=state.accounts.map(a=>`<div class="card"><div class="sectionhead"><h2>${esc(a.name)}</h2><span class="pill">${esc(a.type)}</span></div><div class="num" style="font-size:25px;font-weight:750">${(balancesVisible||revealedCountries.has(activeCountry))?money(acctBalance(a)):'••••••'}</div><div class="tiny">Opening balance ${(balancesVisible||revealedCountries.has(activeCountry))?money(a.opening):'••••••'}</div><div class="actions" style="margin-top:12px"><button class="secondary" data-edit="account:${a.id}">Edit</button><button class="danger" data-delete="account:${a.id}">Delete</button></div></div>`).join('')||'<div class="card empty">Add a bank account and its opening balance.</div>'}
 function dateAt(s){return new Date(s+'T12:00:00')}
 function dateISO(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
 function shiftDate(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}
@@ -95,9 +459,59 @@ function remove(kind,id){const coll=kind==='transaction'?'transactions':kind==='
 document.addEventListener('click',e=>{const edit=e.target.closest('[data-edit]')?.dataset.edit;if(edit){const [k,id]=edit.split(':');openEditor(k,id);return}const del=e.target.closest('[data-delete]')?.dataset.delete;if(del){const [k,id]=del.split(':');remove(k,id);return}const pay=e.target.closest('[data-pay]')?.dataset.pay;if(pay){const [id,due,slot]=pay.split(':');markPaid(id,due,Number(slot));return}const undo=e.target.closest('[data-undo-pay]')?.dataset.undoPay;if(undo){const [id,due,slot]=undo.split(':');undoPaid(id,due,Number(slot));return}const goto=e.target.closest('[data-goto]')?.dataset.goto;if(goto)showTab(goto)});
 function showTab(tab){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('hidden',p.id!==tab));document.querySelectorAll('[data-tab]').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));if(tab==='transactions')renderTransactions()}
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));$('period').addEventListener('change',renderOverview);$('txnSearch').addEventListener('input',renderTransactions);$('txnFilter').addEventListener('change',renderTransactions);$('addBtn').onclick=$('addTxn2').onclick=()=>openEditor('transaction');$('addAccount').onclick=()=>openEditor('account');$('addCard').onclick=()=>openEditor('card');$('addGoal').onclick=()=>openEditor('goal');$('addInvestment').onclick=()=>openEditor('investment');$('prevCal').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()-1,1,12);renderCalendar()};$('nextCal').onclick=()=>{calendarMonth=new Date(calendarMonth.getFullYear(),calendarMonth.getMonth()+1,1,12);renderCalendar()};$('todayCal').onclick=()=>{calendarMonth=new Date(new Date().getFullYear(),new Date().getMonth(),1,12);renderCalendar()};$('closeModal').onclick=$('cancelModal').onclick=()=>$('modal').close();
-function download(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function csvCell(v){let s=String(v??'');if(/^[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}$('exportCsv').onclick=()=>{const cols=['date','type','amount','category','note','accountId'];const rows=[cols.join(','),...state.transactions.map(t=>cols.map(k=>csvCell(t[k])).join(','))];download('myfinance-transactions-'+today()+'.csv',new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'}))};$('exportInvestments').onclick=()=>{const cols=['name','symbol','assetType','broker','quantity','avgCost','currentPrice'];const rows=[cols.join(','),...(state.investments||[]).map(h=>cols.map(k=>csvCell(h[k])).join(','))];download('myfinance-investments-'+today()+'.csv',new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'}))};$('exportPayments').onclick=()=>{const cols=['cardId','dueDate','slot','amount','paidOn'];const rows=[cols.join(','),...(state.payments||[]).map(p=>cols.map(k=>csvCell(p[k])).join(','))];download('myfinance-payments-'+today()+'.csv',new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'}))};$('backupBtn').onclick=()=>download('myfinance-backup-'+today()+'.json',new Blob([JSON.stringify({version:3,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'}));$('restoreBtn').onclick=async()=>{const file=$('restoreFile').files[0];if(!file)return alert('Choose a JSON backup first.');if(!confirm('Restore replaces all current MyFinance data. Continue?'))return;try{const x=JSON.parse(await file.text());if(x.payments!==undefined&&!Array.isArray(x.payments))throw Error('Invalid payment history');if(!Array.isArray(x.transactions)||!Array.isArray(x.accounts)||!Array.isArray(x.cards)||!Array.isArray(x.goals))throw Error('Invalid backup structure');if(x.investments!==undefined&&!Array.isArray(x.investments))throw Error('Invalid investment holdings');state={transactions:x.transactions,accounts:x.accounts,cards:x.cards,goals:x.goals,investments:Array.isArray(x.investments)?x.investments:[],payments:Array.isArray(x.payments)?x.payments:[],settings:x.settings||{}};save();alert('Backup restored.')}catch(e){alert('Restore failed: '+e.message)}};$('clearData').onclick=()=>{if(confirm('Permanently delete all MyFinance data saved in this browser? Export a backup first if needed.')){state={transactions:[],accounts:[],cards:[],goals:[],investments:[],payments:[],settings:{lastReminderDate:''}};save()}};
-async function enableNotifications(){if(!('Notification'in window)){alert('Notifications are not supported by this browser.');return}try{const p=await Notification.requestPermission();$('settingsStatus').textContent=p==='granted'?'Notifications enabled for reminder checks.':`Notification permission: ${p}.`;if(p==='granted')checkReminders(true)}catch(e){alert('Could not enable notifications: '+e.message)}}$('notifyBtn').onclick=$('enableNotify2').onclick=enableNotifications;
-function checkReminders(notify=false){const d=today(),due=state.cards.filter(c=>{const p=cardSchedule(c);return p&&[[p.first,p.completed1,p.firstAmount],[p.final,p.completed2,p.secondAmount]].some(([x,done,amt])=>!done&&amt>0&&Math.ceil((x-dateAt(d))/86400000)>=0&&Math.ceil((x-dateAt(d))/86400000)<=3)});if(notify&&'Notification'in window&&Notification.permission==='granted'&&state.settings.lastReminderDate!==d){if(due.length)new Notification('MyFinance: upcoming payment',{body:due.map(c=>`${c.name}: ${money(c.minimum)} minimum, next due ${dateISO(cardSchedule(c).due)}`).join('\n')});state.settings.lastReminderDate=d;try{localStorage.setItem(DB,JSON.stringify(state))}catch{}}$('settingsStatus').textContent=`Checked ${d}. ${due.length} card(s) with planned payments in the next 3 days.`;renderReminders()}$('checkReminders').onclick=()=>checkReminders(true);
-load();render();if('serviceWorker'in navigator&&location.protocol!=='file:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Service worker registration failed',e)));setInterval(()=>{if('Notification'in window&&Notification.permission==='granted')checkReminders(true)},60*60*1000);
+function download(name,blob){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}function csvCell(v){let s=String(v??'');if(/^[=+@\-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}$('exportCsv').onclick=()=>{const cols=['date','type','amount','category','note','accountId'];const rows=[cols.join(','),...state.transactions.map(t=>cols.map(k=>csvCell(t[k])).join(','))];download('myfinance-'+activeCountry+'-transactions-'+today()+'.csv',new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'}))};$('exportInvestments').onclick=()=>{const cols=['name','symbol','assetType','broker','quantity','avgCost','currentPrice'];const rows=[cols.join(','),...(state.investments||[]).map(h=>cols.map(k=>csvCell(h[k])).join(','))];download('myfinance-'+activeCountry+'-investments-'+today()+'.csv',new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'}))};$('exportPayments').onclick=()=>{const cols=['cardId','dueDate','slot','amount','paidOn'];const rows=[cols.join(','),...(state.payments||[]).map(p=>cols.map(k=>csvCell(p[k])).join(','))];download('myfinance-'+activeCountry+'-payments-'+today()+'.csv',new Blob(['\ufeff'+rows.join('\r\n')],{type:'text/csv;charset=utf-8'}))};$('backupBtn').onclick=()=>download('myfinance-all-countries-backup-'+today()+'.json',new Blob([JSON.stringify({version:5,exportedAt:new Date().toISOString(),...window.MyFinanceBridge.exportSnapshot()},null,2)],{type:'application/json'}));$('restoreBtn').onclick=async()=>{const file=$('restoreFile').files[0];if(!file)return alert('Choose a JSON backup first.');if(!confirm('Restore replaces all current Monviora data. Continue?'))return;try{const x=JSON.parse(await file.text());if(x.payments!==undefined&&!Array.isArray(x.payments))throw Error('Invalid payment history');if(!(x.countryProfiles||x.countries)&&(!Array.isArray(x.transactions)||!Array.isArray(x.accounts)||!Array.isArray(x.cards)||!Array.isArray(x.goals)))throw Error('Invalid backup structure');if(x.investments!==undefined&&!Array.isArray(x.investments))throw Error('Invalid investment holdings');if(x.countryProfiles||x.countries){
+  window.MyFinanceBridge.importSnapshot(x);
+ }else {
+  // A legacy backup restores to US only, without erasing other countries.
+  countryStore.countries.US=normalizeProfile(x);
+  if(!countryStore.selectedCountries.includes('US'))countryStore.selectedCountries.push('US');
+  if(activeCountry==='US')state=normalizeProfile(x);
+  persistProfiles();applyCountry();applyTheme();render();
+  window.MyFinanceCloud?.onLocalSave?.();
+ }
+ alert('Backup restored.')}catch(e){alert('Restore failed: '+e.message)}};$('clearData').onclick=()=>{if(confirm('Permanently delete records for the currently selected country? Other countries will be preserved. Export a backup first if needed.')){state={transactions:[],accounts:[],cards:[],goals:[],investments:[],payments:[],settings:{lastReminderDate:'',theme:'system',paymentRemindersEnabled:false}};save()}};
+async function enableNotifications(){
+ if(!('Notification' in window)){
+  $('settingsStatus').textContent='This browser does not support page notifications. Use the payment calendar and upcoming checklist instead.';return;
+ }
+ if(!window.isSecureContext){
+  $('settingsStatus').textContent='Browser notifications require HTTPS or localhost.';return;
+ }
+ try{
+  const permission=await Notification.requestPermission();
+  state.settings.paymentRemindersEnabled=permission==='granted';
+  save();
+  $('settingsStatus').textContent=permission==='granted'
+   ?'Browser reminders enabled while Monviora is open. Closed-browser alerts require a separate push service.'
+   :`Notification permission: ${permission}. The payment calendar remains available.`;
+  if(permission==='granted')checkReminders(true);
+ }catch(e){$('settingsStatus').textContent='Could not enable browser notifications: '+e.message}
+}
+$('notifyBtn').onclick=$('enableNotify2').onclick=enableNotifications;
+function checkReminders(notify=false){const d=today(),due=state.cards.filter(c=>{const p=cardSchedule(c);return p&&[[p.first,p.completed1,p.firstAmount],[p.final,p.completed2,p.secondAmount]].some(([x,done,amt])=>!done&&amt>0&&Math.ceil((x-dateAt(d))/86400000)>=0&&Math.ceil((x-dateAt(d))/86400000)<=3)});if(notify&&'Notification'in window&&Notification.permission==='granted'&&state.settings.lastReminderDate!==d){if(due.length)new Notification('Monviora: upcoming payment',{body:due.map(c=>`${c.name}: ${money(c.minimum)} minimum, next due ${dateISO(cardSchedule(c).due)}`).join('\n')});state.settings.lastReminderDate=d;try{localStorage.setItem(DB,JSON.stringify(state))}catch{}}$('settingsStatus').textContent=`Checked ${d}. ${due.length} card(s) with planned payments in the next 3 days. Browser alerts require this page to be open.`;renderReminders()}$('checkReminders').onclick=()=>checkReminders(true);
+window.MyFinanceBridge={
+ exportSnapshot:()=>{
+  persistProfiles();
+  return {version:5,countryProfiles:JSON.parse(JSON.stringify(countryStore.countries)),selectedCountries:[...countryStore.selectedCountries],selectedCountry:activeCountry};
+ },
+ hasLocalData:()=>Object.values(countryStore.countries).some(p=>profileKeys.some(k=>(p[k]||[]).length>0)),
+ importSnapshot:(data)=>{
+  if(!data||typeof data!=='object')throw Error('Invalid cloud backup');
+  // Old remote backup, when present, is imported only into the US profile.
+  const incoming=normalizeStore(data);
+  for(const [code,profile] of Object.entries(incoming.countries)){
+   if(!COUNTRY_META[code]||profileKeys.some(k=>!Array.isArray(profile[k])))throw Error('Invalid country backup: '+code);
+  }
+  const previousTheme=state.settings.theme;
+  countryStore.countries=incoming.countries;
+  countryStore.selectedCountries=incoming.selectedCountries;
+  activeCountry=incoming.selectedCountries.includes(activeCountry)?activeCountry:incoming.selectedCountry;
+  state=normalizeProfile(countryStore.countries[activeCountry]);
+  // Theme remains the device's local preference.
+  state.settings.theme=previousTheme;
+  applyCountry();save();
+ }
+};
+load();applyTheme();render();if('serviceWorker'in navigator&&location.protocol!=='file:')window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(e=>console.warn('Service worker registration failed',e)));setInterval(()=>{if(state.settings.paymentRemindersEnabled&&'Notification'in window&&Notification.permission==='granted')checkReminders(true)},60*60*1000);
 })();
-</script></body></html>
+</script><script src="./firebase-config.js"></script><script type="module" src="./firebase-sync.js"></script></body></html>

@@ -1,0 +1,22 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /users/{userId}/private/{snapshotId} {
+      function owner() {
+        return request.auth != null && request.auth.uid == userId && snapshotId == 'financeSnapshot';
+      }
+      function validSnapshot() {
+        return request.resource.data.keys().hasOnly(['payload', 'revision', 'updatedAt'])
+          && request.resource.data.payload is map
+          && request.resource.data.revision is int
+          && request.resource.data.revision >= 1;
+      }
+      allow get: if owner();
+      allow create: if owner() && validSnapshot() && request.resource.data.revision == 1;
+      allow update: if owner() && validSnapshot()
+        && request.resource.data.revision == resource.data.revision + 1;
+      allow list, delete: if false;
+    }
+    match /{document=**} { allow read, write: if false; }
+  }
+}

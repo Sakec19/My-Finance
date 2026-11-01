@@ -1,4 +1,4 @@
-const CACHE='myfinance-web-shell-v7-monviora-country-fix';
+const CACHE='myfinance-web-shell-v8-monviora-appearance-home';
 const SHELL=['./','./index.html','./firebase-config.js','./firebase-sync.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./icon-48.png','./apple-touch-icon.png'];
 self.addEventListener('install', event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting()});
 self.addEventListener('activate', event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('myfinance-web-shell-')&&k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});

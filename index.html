@@ -248,7 +248,6 @@ function addCountry(code){
  countryStore.selectedCountries.push(code);
  try{
   switchCountry(code);
-  renderCountryManager();
   $('countrySearch').value='';
   renderCountryManager();
  }catch(e){countryStore.selectedCountries=previous;alert(`Could not add country: ${e.message}`)}
@@ -433,7 +432,7 @@ $('scrollCountriesPrev').addEventListener('click',()=>{
 $('scrollCountriesNext').addEventListener('click',()=>{
  const el=$('countryBalanceCarousel');el.scrollBy({left:Math.max(el.clientWidth*.8,260),behavior:'smooth'});
 });
-function render(){refreshCountryDropdown();renderCountryGallery();renderOverview();renderTransactions();renderAccounts();renderCards();renderCalendar();renderGoals();renderInvestments();renderSettings();updateCountryScreen();}
+function render(){refreshCountryDropdown();renderCountryGallery();renderOverview();renderTransactions();renderAccounts();renderCards();renderCalendar();renderGoals();renderInvestments();updateCountryScreen();}
 function renderOverview(){const ts=activeTransactions(),inc=ts.filter(t=>t.type==='income').reduce((s,t)=>s+num(t.amount),0),out=ts.filter(t=>t.type==='expense').reduce((s,t)=>s+num(t.amount),0);$('incomeTotal').textContent=money(inc);$('expenseTotal').textContent=money(out);$('netTotal').textContent=money(inc-out);$('netTotal').className='num '+(inc-out>=0?'positive':'negative');$('bankTotal').textContent=(dashboardOpen||balancesVisible||revealedCountries.has(activeCountry))?money(state.accounts.reduce((s,a)=>s+acctBalance(a),0)):'••••••';$('periodLabel').textContent=({daily:'Today',weekly:'This week',monthly:'This month',all:'All time'})[$('period').value];const cats=categoryTotals(ts),max=cats.length?cats[0][1]:1;$('spendingChart').innerHTML=cats.length?cats.map(([c,v])=>`<div class="barrow"><span>${esc(c)}</span><div class="barbg"><div class="bar" style="width:${Math.max(2,v/max*100)}%"></div></div><b>${money(v)}</b></div>`).join(''):'<div class="empty">Add expenses to see your spending breakdown.</div>';$('recentList').innerHTML=state.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(txnRow).join('')||'<div class="empty">No transactions yet. Add your first income or expense.</div>';renderReminders()}
 function txnRow(t){return `<div class="row"><div><div class="rowtitle">${esc(t.note||t.category||'Transaction')}</div><div class="tiny">${esc(t.date)} · ${esc(t.category)} · ${t.type==='income'?'Income':'Expense'}</div></div><div style="text-align:right"><b class="${t.type==='income'?'positive':'negative'}">${t.type==='income'?'+':'−'}${money(t.amount)}</b><div class="actions"><button class="secondary" data-edit="transaction:${t.id}">Edit</button><button class="danger" data-delete="transaction:${t.id}">Delete</button></div></div></div>`}
 function renderTransactions(){const q=$('txnSearch').value.toLowerCase(),f=$('txnFilter').value;const ts=state.transactions.filter(t=>(f==='all'||t.type===f)&&[t.note,t.category,t.date,t.amount].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('transactionsList').innerHTML=ts.map(txnRow).join('')||'<div class="empty">No matching transactions.</div>'}

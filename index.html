@@ -86,6 +86,8 @@ html[data-theme=dark] .country-balance-card{background:linear-gradient(135deg,#2
 body:not(.country-open) nav.tabs,body:not(.country-open) #countryNote,body:not(.country-open) #overview> :not(.country-portfolio),body:not(.country-open) .top #addBtn,body:not(.country-open) .top #notifyBtn,body:not(.country-open) .top .country-control,body:not(.country-open) .top .header-theme,body:not(.country-open) .top #themeQuickToggle{display:none!important}
 body:not(.country-open) #overview{display:block!important}
 body:not(.country-open) .page:not(#overview){display:none!important}
+/* Keep country management and quick theme controls on the main screen, not inside country details. */
+body.country-open .top .country-control,body.country-open .top #addCountryBtn,body.country-open .top #themeQuickToggle{display:none!important}
 body.country-open .country-portfolio{display:none!important}
 body.country-open .country-dashboard-header,body.country-open #countryTotalBalance{display:flex!important}
 .country-dashboard-header{align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:15px 0}

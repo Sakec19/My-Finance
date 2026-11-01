@@ -80,12 +80,34 @@ html[data-theme=dark] .country-balance-card{background:linear-gradient(135deg,#2
 .monviora-logo{width:48px;height:48px;border-radius:15px;overflow:hidden;display:block;background:#071d2a;box-shadow:0 3px 14px #07231a44}
 .monviora-logo img{display:block;width:100%;height:100%;object-fit:cover}
 :root[data-theme="dark"] .monviora-logo{box-shadow:0 0 0 1px #365b55,0 3px 14px #0005}
+
+/* Country-first navigation: carousel-only home, full-width country dashboard */
+.app{max-width:1440px}
+body:not(.country-open) nav.tabs,body:not(.country-open) #countryNote,body:not(.country-open) #overview> :not(.country-portfolio),body:not(.country-open) .top #addBtn,body:not(.country-open) .top #notifyBtn,body:not(.country-open) .top .country-control,body:not(.country-open) .top .header-theme,body:not(.country-open) .top #themeQuickToggle{display:none!important}
+body:not(.country-open) #overview{display:block!important}
+body:not(.country-open) .page:not(#overview){display:none!important}
+body.country-open .country-portfolio{display:none!important}
+body.country-open .country-dashboard-header,body.country-open #countryTotalBalance{display:flex!important}
+.country-dashboard-header{align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:15px 0}
+.country-dashboard-name{font-size:18px;font-weight:750}
+.country-total-balance{flex-direction:column;gap:8px;margin:16px 0 23px;width:min(100%,390px);background:var(--card)}
+.country-total-balance .label{font-size:12px;color:var(--muted);font-weight:750}
+.country-total-balance .num{font-size:clamp(28px,4vw,38px);font-weight:800}
+body:not(.country-open) .country-balance-card{flex-basis:clamp(290px,42vw,480px);min-height:275px;border-radius:32px;cursor:pointer}
+body:not(.country-open) .country-balance-carousel{padding:12px 4px 20px}
+body:not(.country-open) .country-open-button{font-size:13px}
+body:not(.country-open) .country-balance-card[aria-current=true]{outline:none}
+body:not(.country-open) .top{margin-bottom:34px}
+body.country-open .tabs{padding-top:8px}
+@media(max-width:600px){body:not(.country-open) .country-balance-card{flex-basis:87vw;min-height:230px}body.country-open .country-total-balance{width:100%}}
 </style></head>
 <body><main class="app">
 <header class="top"><div class="brand"><div class="logo monviora-logo"><img src="./icon-192.png" alt="Monviora icon" width="48" height="48"></div><div><h1>Monviora</h1><div class="sub">Your money. Your world.</div></div></div><div class="toolbar"><label class="country-control" for="countrySelect"><span>Country</span><select id="countrySelect" aria-label="Select financial country"></select></label><button id="addCountryBtn" class="secondary" type="button" title="Add or manage countries">＋ Countries</button><button type="button" class="theme-quick-toggle secondary" id="themeQuickToggle" aria-label="Switch between light and dark mode" title="Toggle light or dark mode"><span id="themeQuickIcon" aria-hidden="true">☾</span><span id="themeQuickLabel">Dark mode</span></button><label class="header-theme" for="themeHeaderSelect"><span>Appearance</span><select id="themeHeaderSelect" aria-label="Appearance theme"><option value="system">System</option><option value="light">☀ Light</option><option value="dark">☾ Dark</option></select></label><button class="secondary" id="notifyBtn">Enable reminders</button><button id="addBtn">＋ Add transaction</button></div></header>
 <div id="countryNote" class="country-note" role="status" aria-live="polite">Viewing United States financial records. Values are stored separately by country; no exchange-rate conversion is applied.</div>
 <nav class="tabs" aria-label="Main sections"><button class="active" data-tab="overview">Overview</button><button data-tab="transactions">Transactions</button><button data-tab="accounts">Bank accounts</button><button data-tab="cards">Credit cards</button><button data-tab="calendar">Payment calendar</button><button data-tab="savings">Savings goals</button><button data-tab="investments">Investments</button><button data-tab="settings">Backup & settings</button></nav>
+<div id="countryDashboardHeader" class="country-dashboard-header hidden"><button type="button" id="backToCountries" class="secondary">← All countries</button><div class="country-dashboard-name" id="dashboardCountryName"></div></div>
 <section id="overview" class="page">
+<div id="countryTotalBalance" class="card country-total-balance hidden"><div class="label">TOTAL BALANCE</div><div class="num" id="countryTotalValue"></div><div class="tiny" id="countryTotalCurrency"></div></div>
 <section class="country-portfolio section" aria-label="Country balances">
  <div class="sectionhead"><div><h2>Your countries</h2><div class="sub">Swipe left to browse country balances, or use the arrows.</div></div>
  <div class="toolbar">
@@ -209,7 +231,7 @@ function renderCountryManager(){
   openButton.type='button';openButton.className='secondary';openButton.textContent='Open';
   openButton.setAttribute('aria-label',`Open ${meta.name}`);
   openButton.addEventListener('click',()=>{
-    $('countryManager').close();switchCountry(code);document.querySelector('[data-tab="overview"]')?.click();
+    $('countryManager').close();openCountryDashboard(code);
   });
   row.appendChild(openButton);
   const button=document.createElement('button');
@@ -327,6 +349,23 @@ function countryBankBalance(profile){
 function displayCountryMoney(value,code){
  return new Intl.NumberFormat(undefined,{style:'currency',currency:COUNTRY_META[code].currency}).format(value);
 }
+let dashboardOpen=false;
+function updateCountryScreen(){
+ document.body.classList.toggle('country-open',dashboardOpen);
+ const meta=COUNTRY_META[activeCountry];
+ $('dashboardCountryName').textContent=meta?meta.name+' · '+meta.currency:'';
+ $('countryTotalValue').textContent=money(state.accounts.reduce((total,account)=>total+acctBalance(account),0));
+ $('countryTotalCurrency').textContent=meta?meta.currency+' · Total bank account balances':'';
+ $('countryDashboardHeader').classList.toggle('hidden',!dashboardOpen);
+ $('countryTotalBalance').classList.toggle('hidden',!dashboardOpen);
+ if(!dashboardOpen)showTab('overview');
+}
+function openCountryDashboard(code){
+ if(code!==activeCountry)switchCountry(code);
+ dashboardOpen=true;updateCountryScreen();showTab('overview');renderOverview();renderAccounts();
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+$('backToCountries').addEventListener('click',()=>{dashboardOpen=false;updateCountryScreen();renderCountryGallery();window.scrollTo({top:0,behavior:'smooth'})});
 function renderCountryGallery(){
  const carousel=$('countryBalanceCarousel');
  if(!carousel)return;
@@ -370,10 +409,12 @@ function renderCountryGallery(){
   const bottom=document.createElement('div');bottom.className='country-card-bottom';
   const openButton=document.createElement('button');
   openButton.type='button';openButton.className='country-open-button';
-  openButton.textContent=code===activeCountry?'Current country':'Open '+country.name;
+  openButton.textContent='Open '+country.name;
   openButton.setAttribute('aria-label',`Open ${country.name} financial records`);
-  openButton.addEventListener('click',()=>switchCountry(code));
+  openButton.addEventListener('click',()=>openCountryDashboard(code));
   bottom.append(openButton);
+  card.addEventListener('click',event=>{if(!event.target.closest('button'))openCountryDashboard(code)});
+  card.tabIndex=0;card.setAttribute('role','button');card.addEventListener('keydown',event=>{if(event.target===card&&(event.key==='Enter'||event.key===' ')){event.preventDefault();openCountryDashboard(code)}});
   card.append(top,middle,bottom);
   carousel.appendChild(card);
  }
@@ -392,11 +433,11 @@ $('scrollCountriesPrev').addEventListener('click',()=>{
 $('scrollCountriesNext').addEventListener('click',()=>{
  const el=$('countryBalanceCarousel');el.scrollBy({left:Math.max(el.clientWidth*.8,260),behavior:'smooth'});
 });
-function render(){refreshCountryDropdown();renderCountryGallery();renderOverview();renderTransactions();renderAccounts();renderCards();renderCalendar();renderGoals();renderInvestments();renderSettings();}
-function renderOverview(){const ts=activeTransactions(),inc=ts.filter(t=>t.type==='income').reduce((s,t)=>s+num(t.amount),0),out=ts.filter(t=>t.type==='expense').reduce((s,t)=>s+num(t.amount),0);$('incomeTotal').textContent=money(inc);$('expenseTotal').textContent=money(out);$('netTotal').textContent=money(inc-out);$('netTotal').className='num '+(inc-out>=0?'positive':'negative');$('bankTotal').textContent=(balancesVisible||revealedCountries.has(activeCountry))?money(state.accounts.reduce((s,a)=>s+acctBalance(a),0)):'••••••';$('periodLabel').textContent=({daily:'Today',weekly:'This week',monthly:'This month',all:'All time'})[$('period').value];const cats=categoryTotals(ts),max=cats.length?cats[0][1]:1;$('spendingChart').innerHTML=cats.length?cats.map(([c,v])=>`<div class="barrow"><span>${esc(c)}</span><div class="barbg"><div class="bar" style="width:${Math.max(2,v/max*100)}%"></div></div><b>${money(v)}</b></div>`).join(''):'<div class="empty">Add expenses to see your spending breakdown.</div>';$('recentList').innerHTML=state.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(txnRow).join('')||'<div class="empty">No transactions yet. Add your first income or expense.</div>';renderReminders()}
+function render(){refreshCountryDropdown();renderCountryGallery();renderOverview();renderTransactions();renderAccounts();renderCards();renderCalendar();renderGoals();renderInvestments();renderSettings();updateCountryScreen();}
+function renderOverview(){const ts=activeTransactions(),inc=ts.filter(t=>t.type==='income').reduce((s,t)=>s+num(t.amount),0),out=ts.filter(t=>t.type==='expense').reduce((s,t)=>s+num(t.amount),0);$('incomeTotal').textContent=money(inc);$('expenseTotal').textContent=money(out);$('netTotal').textContent=money(inc-out);$('netTotal').className='num '+(inc-out>=0?'positive':'negative');$('bankTotal').textContent=(dashboardOpen||balancesVisible||revealedCountries.has(activeCountry))?money(state.accounts.reduce((s,a)=>s+acctBalance(a),0)):'••••••';$('periodLabel').textContent=({daily:'Today',weekly:'This week',monthly:'This month',all:'All time'})[$('period').value];const cats=categoryTotals(ts),max=cats.length?cats[0][1]:1;$('spendingChart').innerHTML=cats.length?cats.map(([c,v])=>`<div class="barrow"><span>${esc(c)}</span><div class="barbg"><div class="bar" style="width:${Math.max(2,v/max*100)}%"></div></div><b>${money(v)}</b></div>`).join(''):'<div class="empty">Add expenses to see your spending breakdown.</div>';$('recentList').innerHTML=state.transactions.slice().sort((a,b)=>b.date.localeCompare(a.date)).slice(0,5).map(txnRow).join('')||'<div class="empty">No transactions yet. Add your first income or expense.</div>';renderReminders()}
 function txnRow(t){return `<div class="row"><div><div class="rowtitle">${esc(t.note||t.category||'Transaction')}</div><div class="tiny">${esc(t.date)} · ${esc(t.category)} · ${t.type==='income'?'Income':'Expense'}</div></div><div style="text-align:right"><b class="${t.type==='income'?'positive':'negative'}">${t.type==='income'?'+':'−'}${money(t.amount)}</b><div class="actions"><button class="secondary" data-edit="transaction:${t.id}">Edit</button><button class="danger" data-delete="transaction:${t.id}">Delete</button></div></div></div>`}
 function renderTransactions(){const q=$('txnSearch').value.toLowerCase(),f=$('txnFilter').value;const ts=state.transactions.filter(t=>(f==='all'||t.type===f)&&[t.note,t.category,t.date,t.amount].join(' ').toLowerCase().includes(q)).sort((a,b)=>b.date.localeCompare(a.date));$('transactionsList').innerHTML=ts.map(txnRow).join('')||'<div class="empty">No matching transactions.</div>'}
-function renderAccounts(){$('accountsList').innerHTML=state.accounts.map(a=>`<div class="card"><div class="sectionhead"><h2>${esc(a.name)}</h2><span class="pill">${esc(a.type)}</span></div><div class="num" style="font-size:25px;font-weight:750">${(balancesVisible||revealedCountries.has(activeCountry))?money(acctBalance(a)):'••••••'}</div><div class="tiny">Opening balance ${(balancesVisible||revealedCountries.has(activeCountry))?money(a.opening):'••••••'}</div><div class="actions" style="margin-top:12px"><button class="secondary" data-edit="account:${a.id}">Edit</button><button class="danger" data-delete="account:${a.id}">Delete</button></div></div>`).join('')||'<div class="card empty">Add a bank account and its opening balance.</div>'}
+function renderAccounts(){$('accountsList').innerHTML=state.accounts.map(a=>`<div class="card"><div class="sectionhead"><h2>${esc(a.name)}</h2><span class="pill">${esc(a.type)}</span></div><div class="num" style="font-size:25px;font-weight:750">${(dashboardOpen||balancesVisible||revealedCountries.has(activeCountry))?money(acctBalance(a)):'••••••'}</div><div class="tiny">Opening balance ${(dashboardOpen||balancesVisible||revealedCountries.has(activeCountry))?money(a.opening):'••••••'}</div><div class="actions" style="margin-top:12px"><button class="secondary" data-edit="account:${a.id}">Edit</button><button class="danger" data-delete="account:${a.id}">Delete</button></div></div>`).join('')||'<div class="card empty">Add a bank account and its opening balance.</div>'}
 function dateAt(s){return new Date(s+'T12:00:00')}
 function dateISO(d){return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-')}
 function shiftDate(d,n){const x=new Date(d);x.setDate(x.getDate()+n);return x}

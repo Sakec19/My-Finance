@@ -42,7 +42,7 @@ async function firstSync(restoreOnly){
  const current=await remote();
  if(!current){
   if(restoreOnly)throw Error('No cloud backup exists for this account.');
-  if(!confirm('There is no cloud backup. Upload your current MyFinance data? Export a local JSON backup first.'))return;
+  if(!confirm('There is no cloud backup. Upload all your current Monviora family profiles? Export a local JSON backup first.'))return;
   const payload=bridge.exportSnapshot();
   await runTransaction(db,async tx=>{
    const ref=reference();const fresh=await tx.get(ref);
@@ -53,10 +53,10 @@ async function firstSync(restoreOnly){
   status('Initial cloud backup created.');if(dirty)onLocalSave();return;
  }
  if(restoreOnly||!bridge.hasLocalData()){
-  if(confirm('Restore cloud data onto this device? This REPLACES local data. Export a JSON backup first.'))restore(current);
+  if(confirm('Restore cloud data onto this device? This REPLACES all local family profiles. Export a JSON backup first.'))restore(current);
   return;
  }
- if(confirm('Cloud and this device both have data. Restore the cloud copy? This REPLACES local data. Cancel to keep both unchanged.'))restore(current);
+ if(confirm('Cloud and this device both have data. Restore the cloud copy? This REPLACES all local family profiles. Cancel to keep both unchanged.'))restore(current);
  else status('Sync paused: existing local and cloud data were left unchanged.');
 }
 async function sync(restoreOnly=false){
@@ -65,7 +65,7 @@ async function sync(restoreOnly=false){
  running=true;
  try{
   if(!initialized){await firstSync(restoreOnly);return}
-  if(restoreOnly){const latest=await remote();if(!latest)throw Error('Cloud backup no longer exists.');if(confirm('Replace local MyFinance data with cloud data? Export a backup first.'))restore(latest);return}
+  if(restoreOnly){const latest=await remote();if(!latest)throw Error('Cloud backup no longer exists.');if(confirm('Replace all local Monviora family profiles with cloud data? Export a backup first.'))restore(latest);return}
   if(!dirty){const latest=await remote();if(!latest||latest.revision!==revision){initialized=false;status('Cloud changed on another device. Sync paused; choose Restore from cloud after exporting your local backup.')}else status('Cloud up to date.');return}
   const payload=bridge.exportSnapshot();
   const next=revision+1;

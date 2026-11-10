@@ -25,3 +25,17 @@ This web-only package applies the approved Monviora Finance Pro artwork to the m
 
 The generated Monviora logo uses a crop from the approved promotional artwork; consider a separate simpler small-size mark if accessibility at 32px is a concern.
 Cloud Firestore project ID still contains its original MyFinance identifier; renaming the consumer-facing app does not require changing Firebase IDs.
+
+
+## Monviora Family (version 6)
+
+- Family → person’s country carousel → full-width country dashboard. Both back routes remain available; dashboard values are always shown.
+- Add and rename profiles. Each profile owns its countries, accounts, transactions, cards, investments, goals, payments and country preferences.
+- First launch migrates existing country data (or the original US-only data) into My finances. The old storage keys remain unchanged as recovery copies. New edits use `monviora-family-v1`.
+- Full JSON backups and the existing opt-in Firebase snapshot bridge include every person. CSV exports and country deletion affect the selected person/country only. Restoring any backup replaces the family; legacy backups become My finances. Invalid backups are rejected before writing.
+- Profiles are a shared-device organizer, not an authentication boundary. Anyone with access to the app can open them; Firebase sign-in backs up the entire family. No individual account privacy is claimed.
+- Appearance follows existing per-country settings; family home uses the current profile’s appearance. Reduced motion and keyboard focus are supported.
+
+### Verification
+
+Run `node verify-family.cjs` for migration, safety-copy preservation, person/country isolation, edited-data persistence, reload, family backup round trips, invalid backup rejection, legacy restoration and the cloud payload contract. Serve the folder over localhost for UI checks. No build step is required. Live cloud upload/restore needs an authorized Firebase session and is not covered by this local test.

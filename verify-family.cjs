@@ -4,7 +4,7 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const source=fs.readFileSync(__dirname+'/index.html','utf8').split('<script>')[1].split('</script>')[0];
 function boot(seed={}){
  const data=new Map(Object.entries(seed)),elements=new Map();
- const element=()=>({value:'',dataset:{},classList:{toggle(){},add(){},remove(){},contains(){return false}},setAttribute(){},addEventListener(){},replaceChildren(){},append(){},focus(){},close(){},showModal(){},scrollTo(){},style:{}});
+ const element=()=>({value:'',dataset:{},classList:{toggle(){},add(){},remove(){},contains(){return false}},setAttribute(){},removeAttribute(){},addEventListener(){},replaceChildren(){},append(){},focus(){},close(){},showModal(){},scrollTo(){},style:{}});
  const document={getElementById(id){if(!elements.has(id))elements.set(id,element());return elements.get(id)},createElement:element,querySelectorAll:()=>[],querySelector:()=>null,body:element(),documentElement:{dataset:{}},addEventListener(){}};
  const context={document,localStorage:{getItem:k=>data.get(k)||null,setItem(k,v){data.set(k,v)}},window:{matchMedia:()=>({matches:false,addEventListener(){}}),scrollTo(){}},navigator:{},location:{protocol:'file:'},crypto:require('node:crypto').webcrypto,Intl,Date,console,alert(){},setInterval(){},setTimeout(){},clearTimeout(){},confirm:()=>false};
  context.window.window=context.window;

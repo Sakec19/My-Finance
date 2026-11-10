@@ -102,10 +102,10 @@ body:not(.country-open) .country-balance-card[aria-current=true]{outline:none}
 body:not(.country-open) .top{margin-bottom:34px}
 body.country-open .tabs{padding-top:8px}
 @media(max-width:600px){body:not(.country-open) .country-balance-card{flex-basis:87vw;min-height:230px}body.country-open .country-total-balance{width:100%}}
-</style><link rel="stylesheet" href="./family-ui.css"></head>
-<body class="family-screen"><main class="app">
-<header class="top"><div class="brand"><div class="logo monviora-logo"><img src="./icon-192.png" alt="Monviora icon" width="48" height="48"></div><div><h1>Monviora</h1><div class="sub">Your money. Your world.</div></div></div><div class="toolbar"><label class="country-control" for="countrySelect"><span>Country</span><select id="countrySelect" aria-label="Select financial country"></select></label><button id="addCountryBtn" class="secondary" type="button" title="Add or manage countries">＋ Countries</button><button type="button" class="theme-quick-toggle secondary" id="themeQuickToggle" aria-label="Switch between light and dark mode" title="Toggle light or dark mode"><span id="themeQuickIcon" aria-hidden="true">☾</span><span id="themeQuickLabel">Dark mode</span></button><label class="header-theme" for="themeHeaderSelect"><span>Appearance</span><select id="themeHeaderSelect" aria-label="Appearance theme"><option value="system">System</option><option value="light">☀ Light</option><option value="dark">☾ Dark</option></select></label><button class="secondary" id="notifyBtn">Enable reminders</button><button id="addBtn">＋ Add transaction</button></div></header>
-<section id="familyHome" aria-labelledby="familyTitle"><div class="welcome"><div class="eyebrow">MONVIORA FAMILY</div><h2 id="familyTitle">Your family.<br><span>One clear view.</span></h2><p>A personal space for everyone’s finances.<br>Organized by person. Connected by family.</p><div class="hero-art" aria-hidden="true"><svg viewBox="0 0 320 240" fill="none"><circle cx="174" cy="119" r="91" stroke="currentColor" stroke-opacity=".12"/><circle cx="174" cy="119" r="65" stroke="currentColor" stroke-opacity=".16"/><path d="M70 175L136 193L267 118L201 100Z" fill="currentColor" opacity=".07"/><rect x="77" y="62" width="168" height="112" rx="18" transform="rotate(-12 77 62)" fill="currentColor" opacity=".18"/><rect x="91" y="74" width="168" height="112" rx="18" fill="currentColor" opacity=".8"/><rect x="108" y="92" width="28" height="20" rx="5" fill="#fff" opacity=".6"/><path d="M112 147H158M112 158H140" stroke="#fff" stroke-opacity=".55" stroke-width="5" stroke-linecap="round"/><circle cx="223" cy="151" r="14" fill="#fff" opacity=".25"/><circle cx="207" cy="151" r="14" fill="#fff" opacity=".4"/><circle cx="68" cy="130" r="9" fill="currentColor" opacity=".25"/><circle cx="271" cy="61" r="5" fill="currentColor" opacity=".4"/></svg></div></div><div class="family-sectionhead"><div><h2>Your people</h2><p>Choose a profile to get started.</p></div><button id="addPerson" type="button">＋ Add person</button></div><div id="familyCards" class="family-grid"></div><p class="family-note">Separate records. A shared space. Anyone using this app can open a profile; cloud sign-in and backups cover the whole family.</p></section><div id="personNav" class="person-nav"><button id="backToFamily" class="secondary" type="button">← Back to Family</button><strong id="personName"></strong></div><div id="countryNote" class="country-note" role="status" aria-live="polite">Viewing United States financial records. Values are stored separately by country; no exchange-rate conversion is applied.</div>
+</style><link rel="stylesheet" href="./family-ui.css"><link rel="stylesheet" href="./member-sidebar.css"></head>
+<body class="family-screen"><button id="sidebarBackdrop" class="sidebar-backdrop" aria-label="Close family members" type="button" tabindex="-1" hidden></button><aside id="familyHome" class="family-sidebar" aria-labelledby="familyTitle"><div class="sidebar-brand"><img src="./icon-192.png" alt="" width="38" height="38"><div><strong>Monviora</strong><span>Family workspace</span></div><button type="button" id="closeMembers" class="secondary" aria-label="Close family members">×</button></div><div class="sidebar-label"><h2 id="familyTitle">Family members</h2><span>YOUR PEOPLE</span></div><nav id="familyCards" class="family-grid" aria-label="Family members"></nav><button id="addPerson" type="button" class="secondary">＋ Add family member</button><p class="family-note">Separate records. A shared space.<br>Anyone using this app can open a profile. Cloud backups cover the whole family.</p></aside><main class="app" id="workspace"><button id="membersToggle" class="secondary" type="button" aria-controls="familyHome" aria-expanded="false">☰ Family members</button>
+<header class="top"><div class="workspace-title">Family workspace<span>Your money. Your world.</span></div><div class="brand"><div class="logo monviora-logo"><img src="./icon-192.png" alt="Monviora icon" width="48" height="48"></div><div><h1>Monviora</h1><div class="sub">Your money. Your world.</div></div></div><div class="toolbar"><label class="country-control" for="countrySelect"><span>Country</span><select id="countrySelect" aria-label="Select financial country"></select></label><button id="addCountryBtn" class="secondary" type="button" title="Add or manage countries">＋ Countries</button><button type="button" class="theme-quick-toggle secondary" id="themeQuickToggle" aria-label="Switch between light and dark mode" title="Toggle light or dark mode"><span id="themeQuickIcon" aria-hidden="true">☾</span><span id="themeQuickLabel">Dark mode</span></button><label class="header-theme" for="themeHeaderSelect"><span>Appearance</span><select id="themeHeaderSelect" aria-label="Appearance theme"><option value="system">System</option><option value="light">☀ Light</option><option value="dark">☾ Dark</option></select></label><button class="secondary" id="notifyBtn">Enable reminders</button><button id="addBtn">＋ Add transaction</button></div></header>
+<section id="familyWelcome" class="workspace-welcome"><div class="eyebrow">YOUR FAMILY WORKSPACE</div><h2>Everyone’s finances.<br>In their own space.</h2><p>Choose a family member from the sidebar to view their countries, accounts and financial dashboard.</p><button id="chooseMember" type="button" class="secondary">Choose family member</button></section><div id="personNav" class="person-nav"><button id="backToFamily" class="secondary" type="button">← Back to Family</button><strong id="personName" tabindex="-1"></strong></div><div id="countryNote" class="country-note" role="status" aria-live="polite">Viewing United States financial records. Values are stored separately by country; no exchange-rate conversion is applied.</div>
 <nav class="tabs" aria-label="Main sections"><button class="active" data-tab="overview">Overview</button><button data-tab="transactions">Transactions</button><button data-tab="accounts">Bank accounts</button><button data-tab="cards">Credit cards</button><button data-tab="calendar">Payment calendar</button><button data-tab="savings">Savings goals</button><button data-tab="investments">Investments</button><button data-tab="settings">Backup & settings</button></nav>
 <div id="countryDashboardHeader" class="country-dashboard-header hidden"><button type="button" id="backToCountries" class="secondary">← All countries</button><div class="country-dashboard-name" id="dashboardCountryName"></div></div>
 <section id="overview" class="page">
@@ -320,33 +320,62 @@ function validateFamily(raw){
   ids.add(p.id);return {id:p.id,name:p.name.trim(),store:validateStore(p.store)};
  })};
 }
+const memberMedia=window.matchMedia?.('(max-width: 900px)');
+function setMembersOpen(open){
+ const mobile=!!memberMedia?.matches,shown=open&&mobile;
+ document.body.classList.toggle('members-open',shown);
+ $('sidebarBackdrop').hidden=!shown;
+ $('membersToggle').setAttribute('aria-expanded',String(shown));
+ $('workspace').inert=shown;
+ $('familyHome').inert=mobile&&!shown;
+ if(shown){$('familyHome').setAttribute('role','dialog');$('familyHome').setAttribute('aria-modal','true');$('closeMembers').focus()}
+ else{$('familyHome').removeAttribute('role');$('familyHome').removeAttribute('aria-modal')}
+}
+$('membersToggle').onclick=()=>setMembersOpen(true);
+$('closeMembers').onclick=$('sidebarBackdrop').onclick=()=>{setMembersOpen(false);$('membersToggle').focus()};
+$('chooseMember').onclick=()=>{setMembersOpen(true);if(!memberMedia?.matches)$('familyCards').querySelector('button')?.focus()};
+memberMedia?.addEventListener?.('change',()=>setMembersOpen(false));
+$('familyHome').addEventListener('keydown',e=>{
+ if(!document.body.classList.contains('members-open')||$('personDialog').open)return;
+ if(e.key==='Escape'){e.preventDefault();setMembersOpen(false);$('membersToggle').focus()}
+ if(e.key==='Tab'){
+  const items=[...$('familyHome').querySelectorAll('button:not(:disabled)')].filter(el=>el.getClientRects().length);
+  const first=items[0],last=items[items.length-1];
+  if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+  else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+ }
+});
 function renderFamily(){
  $('familyCards').replaceChildren();
  for(const person of familyStore.people){
-  const card=document.createElement('article');card.className='family-card';
-  const avatar=document.createElement('div');avatar.className='avatar';avatar.setAttribute('aria-hidden','true');avatar.textContent=person.name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
-  const heading=document.createElement('h3');heading.textContent=person.name;
-  const detail=document.createElement('div');detail.className='sub';detail.textContent='Countries, accounts & more';
-  const controls=document.createElement('div');controls.className='toolbar';
-  const open=document.createElement('button');open.type='button';open.className='open-person';open.textContent='View finances →';open.setAttribute('aria-label','Open '+person.name);open.onclick=()=>openPerson(person.id);
-  const rename=document.createElement('button');rename.type='button';rename.className='secondary';rename.textContent='Rename';rename.setAttribute('aria-label','Rename '+person.name);rename.onclick=()=>editPerson(person.id);
-  controls.append(open,rename);card.append(avatar,heading,detail,controls);$('familyCards').append(card);
+  const selected=person.id===activePerson&&!document.body.classList.contains('family-screen');
+  const card=document.createElement('div');card.className='member-row'+(selected?' selected':'');
+  const open=document.createElement('button');open.type='button';open.className='member-select';open.setAttribute('aria-label','Open '+person.name);
+  if(selected)open.setAttribute('aria-current','true');
+  const avatar=document.createElement('span');avatar.className='member-avatar';avatar.setAttribute('aria-hidden','true');avatar.textContent=person.name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
+  const label=document.createElement('span');label.className='member-name';label.textContent=person.name;
+  open.append(avatar,label);open.onclick=()=>openPerson(person.id);
+  const rename=document.createElement('button');rename.type='button';rename.className='member-rename secondary';rename.textContent='✎';rename.setAttribute('aria-label','Rename '+person.name);rename.title='Rename '+person.name;rename.onclick=()=>editPerson(person.id);
+  card.append(open,rename);$('familyCards').append(card);
  }
+ if(activePerson&&!document.body.classList.contains('family-screen'))$('personName').textContent=familyStore.people.find(p=>p.id===activePerson)?.name||'';
+ setMembersOpen(document.body.classList.contains('members-open'));
 }
 function openPerson(id){
  persistProfiles();
+ document.querySelectorAll('dialog[open]').forEach(d=>d.close());
  activePerson=id;countryStore=normalizeStore(familyStore.people.find(p=>p.id===id).store);
  activeCountry=countryStore.selectedCountry;state=normalizeProfile(countryStore.countries[activeCountry]);
  balancesVisible=false;revealedCountries.clear();dashboardOpen=false;
  $('txnSearch').value='';$('txnFilter').value='all';$('period').value='monthly';
  $('personName').textContent=familyStore.people.find(p=>p.id===id).name;
- document.body.classList.remove('family-screen');applyCountry();applyTheme();render();
- $('backToFamily').focus();window.scrollTo(0,0);
+ document.body.classList.remove('family-screen');setMembersOpen(false);applyCountry();applyTheme();render();renderFamily();
+ $('personName').focus();window.scrollTo(0,0);
 }
 function backToFamily(){
  persistProfiles();dashboardOpen=false;balancesVisible=false;revealedCountries.clear();
  document.querySelectorAll('dialog[open]').forEach(d=>d.close());
- updateCountryScreen();document.body.classList.add('family-screen');renderFamily();$('addPerson').focus();window.scrollTo(0,0);
+ updateCountryScreen();document.body.classList.add('family-screen');renderFamily();setMembersOpen(true);if(!memberMedia?.matches)$('addPerson').focus();window.scrollTo(0,0);
 }
 function editPerson(id){
  const person=familyStore.people.find(p=>p.id===id);
@@ -355,6 +384,7 @@ function editPerson(id){
 }
 $('addPerson').onclick=()=>editPerson('');$('backToFamily').onclick=backToFamily;
 $('cancelPerson').onclick=()=>$('personDialog').close();
+$('personDialog').addEventListener('close',()=>{if(document.body.classList.contains('members-open'))$('closeMembers').focus()});
 $('personForm').onsubmit=e=>{
  e.preventDefault();const name=$('personInput').value.trim();if(!name)return;
  const next=JSON.parse(JSON.stringify(familyStore)),id=e.currentTarget.dataset.person;

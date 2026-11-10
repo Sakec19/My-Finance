@@ -29,7 +29,7 @@ Cloud Firestore project ID still contains its original MyFinance identifier; ren
 
 ## Monviora Family (version 6)
 
-- Family sidebar → person’s country carousel → full-width country dashboard. The sidebar stays visible on desktop and becomes a keyboard-accessible drawer on mobile. Both back routes remain available; dashboard values are always shown.
+- Family sidebar → person’s country carousel → full-width country dashboard. The sidebar stays visible on desktop, collapses to an avatar rail, and becomes a keyboard-accessible drawer on mobile. Collapse/expand uses the bottom sidebar control and remembers the device preference across reloads. Both back routes remain available; dashboard values are always shown.
 - Add and rename profiles from the sidebar. Each profile owns its countries, accounts, transactions, cards, investments, goals, payments and country preferences.
 - First launch migrates existing country data (or the original US-only data) into My finances. The old storage keys remain unchanged as recovery copies. New edits use `monviora-family-v1`.
 - Full JSON backups and the existing opt-in Firebase snapshot bridge include every person. CSV exports and country deletion affect the selected person/country only. Restoring any backup replaces the family; legacy backups become My finances. Invalid backups are rejected before writing.

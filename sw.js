@@ -1,4 +1,4 @@
-const CACHE='myfinance-web-shell-v11-monviora-member-sidebar';
+const CACHE='myfinance-web-shell-v12-monviora-collapsible-sidebar';
 const SHELL=['./','./index.html','./family-ui.css','./member-sidebar.css','./firebase-config.js','./firebase-sync.js','./manifest.webmanifest','./icon-192.png','./icon-512.png','./icon-maskable-512.png','./icon-48.png','./apple-touch-icon.png'];
 self.addEventListener('install', event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)));self.skipWaiting()});
 self.addEventListener('activate', event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('myfinance-web-shell-')&&k!==CACHE).map(k=>caches.delete(k)))));self.clients.claim()});

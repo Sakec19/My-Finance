@@ -103,7 +103,7 @@ body:not(.country-open) .top{margin-bottom:34px}
 body.country-open .tabs{padding-top:8px}
 @media(max-width:600px){body:not(.country-open) .country-balance-card{flex-basis:87vw;min-height:230px}body.country-open .country-total-balance{width:100%}}
 </style><link rel="stylesheet" href="./family-ui.css"><link rel="stylesheet" href="./member-sidebar.css"></head>
-<body class="family-screen"><button id="sidebarBackdrop" class="sidebar-backdrop" aria-label="Close family members" type="button" tabindex="-1" hidden></button><aside id="familyHome" class="family-sidebar" aria-labelledby="familyTitle"><div class="sidebar-brand"><img src="./icon-192.png" alt="" width="38" height="38"><div><strong>Monviora</strong><span>Family workspace</span></div><button type="button" id="closeMembers" class="secondary" aria-label="Close family members">×</button></div><div class="sidebar-label"><h2 id="familyTitle">Family members</h2><span>YOUR PEOPLE</span></div><nav id="familyCards" class="family-grid" aria-label="Family members"></nav><button id="addPerson" type="button" class="secondary">＋ Add family member</button><p class="family-note">Separate records. A shared space.<br>Anyone using this app can open a profile. Cloud backups cover the whole family.</p></aside><main class="app" id="workspace"><button id="membersToggle" class="secondary" type="button" aria-controls="familyHome" aria-expanded="false">☰ Family members</button>
+<body class="family-screen"><button id="sidebarBackdrop" class="sidebar-backdrop" aria-label="Close family members" type="button" tabindex="-1" hidden></button><aside id="familyHome" class="family-sidebar" aria-labelledby="familyTitle"><div class="sidebar-brand"><img src="./icon-192.png" alt="" width="38" height="38"><div><strong>Monviora</strong><span>Family workspace</span></div><button type="button" id="closeMembers" class="secondary" aria-label="Close family members">×</button></div><div class="sidebar-label"><h2 id="familyTitle">Family members</h2><span>YOUR PEOPLE</span></div><nav id="familyCards" class="family-grid" aria-label="Family members"></nav><button id="addPerson" type="button" class="secondary" aria-label="Add family member" title="Add family member"><span aria-hidden="true">＋</span><span class="add-person-label"> Add family member</span></button><p class="family-note">Separate records. A shared space.<br>Anyone using this app can open a profile. Cloud backups cover the whole family.</p><button id="collapseSidebar" type="button" class="secondary sidebar-collapse" aria-controls="familyHome" aria-expanded="true" aria-label="Collapse sidebar" title="Collapse sidebar"><span id="collapseSidebarIcon" aria-hidden="true">‹</span><span class="collapse-label">Collapse sidebar</span></button></aside><main class="app" id="workspace"><button id="membersToggle" class="secondary" type="button" aria-controls="familyHome" aria-expanded="false">☰ Family members</button>
 <header class="top"><div class="workspace-title">Family workspace<span>Your money. Your world.</span></div><div class="brand"><div class="logo monviora-logo"><img src="./icon-192.png" alt="Monviora icon" width="48" height="48"></div><div><h1>Monviora</h1><div class="sub">Your money. Your world.</div></div></div><div class="toolbar"><label class="country-control" for="countrySelect"><span>Country</span><select id="countrySelect" aria-label="Select financial country"></select></label><button id="addCountryBtn" class="secondary" type="button" title="Add or manage countries">＋ Countries</button><button type="button" class="theme-quick-toggle secondary" id="themeQuickToggle" aria-label="Switch between light and dark mode" title="Toggle light or dark mode"><span id="themeQuickIcon" aria-hidden="true">☾</span><span id="themeQuickLabel">Dark mode</span></button><label class="header-theme" for="themeHeaderSelect"><span>Appearance</span><select id="themeHeaderSelect" aria-label="Appearance theme"><option value="system">System</option><option value="light">☀ Light</option><option value="dark">☾ Dark</option></select></label><button class="secondary" id="notifyBtn">Enable reminders</button><button id="addBtn">＋ Add transaction</button></div></header>
 <section id="familyWelcome" class="workspace-welcome"><div class="eyebrow">YOUR FAMILY WORKSPACE</div><h2>Everyone’s finances.<br>In their own space.</h2><p>Choose a family member from the sidebar to view their countries, accounts and financial dashboard.</p><button id="chooseMember" type="button" class="secondary">Choose family member</button></section><div id="personNav" class="person-nav"><button id="backToFamily" class="secondary" type="button">← Back to Family</button><strong id="personName" tabindex="-1"></strong></div><div id="countryNote" class="country-note" role="status" aria-live="polite">Viewing United States financial records. Values are stored separately by country; no exchange-rate conversion is applied.</div>
 <nav class="tabs" aria-label="Main sections"><button class="active" data-tab="overview">Overview</button><button data-tab="transactions">Transactions</button><button data-tab="accounts">Bank accounts</button><button data-tab="cards">Credit cards</button><button data-tab="calendar">Payment calendar</button><button data-tab="savings">Savings goals</button><button data-tab="investments">Investments</button><button data-tab="settings">Backup & settings</button></nav>
@@ -321,6 +321,20 @@ function validateFamily(raw){
  })};
 }
 const memberMedia=window.matchMedia?.('(max-width: 900px)');
+let sidebarCollapsed=false;
+try{sidebarCollapsed=localStorage.getItem('monviora-sidebar-collapsed')==='true'}catch{}
+function applySidebarCollapse(){
+ document.body.classList.toggle('sidebar-collapsed',sidebarCollapsed);
+ const label=sidebarCollapsed?'Expand sidebar':'Collapse sidebar';
+ $('collapseSidebar').setAttribute('aria-expanded',String(!sidebarCollapsed));
+ $('collapseSidebar').setAttribute('aria-label',label);$('collapseSidebar').title=label;
+ $('collapseSidebarIcon').textContent=sidebarCollapsed?'›':'‹';
+}
+$('collapseSidebar').onclick=()=>{
+ sidebarCollapsed=!sidebarCollapsed;applySidebarCollapse();
+ try{localStorage.setItem('monviora-sidebar-collapsed',String(sidebarCollapsed))}catch{}
+};
+applySidebarCollapse();
 function setMembersOpen(open){
  const mobile=!!memberMedia?.matches,shown=open&&mobile;
  document.body.classList.toggle('members-open',shown);
@@ -350,7 +364,7 @@ function renderFamily(){
  for(const person of familyStore.people){
   const selected=person.id===activePerson&&!document.body.classList.contains('family-screen');
   const card=document.createElement('div');card.className='member-row'+(selected?' selected':'');
-  const open=document.createElement('button');open.type='button';open.className='member-select';open.setAttribute('aria-label','Open '+person.name);
+  const open=document.createElement('button');open.type='button';open.className='member-select';open.setAttribute('aria-label','Open '+person.name);open.title=person.name;
   if(selected)open.setAttribute('aria-current','true');
   const avatar=document.createElement('span');avatar.className='member-avatar';avatar.setAttribute('aria-hidden','true');avatar.textContent=person.name.split(/\s+/).slice(0,2).map(x=>x[0]).join('').toUpperCase();
   const label=document.createElement('span');label.className='member-name';label.textContent=person.name;

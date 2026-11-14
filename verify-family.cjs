@@ -10,7 +10,7 @@ function boot(seed={}){
  context.window.window=context.window;
  // Replace only presentation functions in this storage test adapter.
  let script=source.replace('load();applyTheme();render();if(',`render=()=>{};applyCountry=()=>{};applyTheme=()=>{};renderFamily=()=>{};showTab=()=>{};updateCountryScreen=()=>{};load();if(`);
- script=script.replace(/\}\)\(\);\s*$/,`window.test={get:()=>({familyStore,activePerson,countryStore,state}),openPerson,backToFamily,persistProfiles,normalizeStore,validateFamily,editPerson};})();`);
+ script=script.replace(/\}\)\(\);\s*$/,`window.test={get:()=>({familyStore,activePerson,countryStore,state}),openPerson,backToFamily,persistProfiles,normalizeStore,validateFamily,editPerson,renderBudgets,currentMonthKey};})();`);
  vm.runInNewContext(script,context);return {context,data,test:context.window.test,bridge:context.window.MyFinanceBridge,elements};
 }
 const profile=(balance)=>({transactions:[],accounts:[{id:'a',name:'Checking',opening:balance}],cards:[],goals:[],investments:[],payments:[],settings:{theme:'light'}});
@@ -25,12 +25,16 @@ snapshot.people[0].photo=photo;
 snapshot.people.push({id:'second',name:'Second person',store:{countries:{US:profile(55)},selectedCountries:['US'],selectedCountry:'US'}});
 app.bridge.importSnapshot(snapshot);app.test.openPerson('second');
 assert.equal(app.test.get().state.accounts[0].opening,55);
-app.test.get().state.accounts[0].opening=66;app.test.persistProfiles();app.test.openPerson('primary');
+app.test.get().state.accounts[0].opening=66;app.test.get().state.budgets.push({id:'grocery-budget',category:'Groceries',amount:500});app.test.persistProfiles();app.test.openPerson('primary');
 assert.equal(app.test.get().state.accounts[0].opening,980);
 assert.equal(app.test.get().countryStore.countries.US.accounts[0].opening,120);
+assert.equal(app.test.get().state.budgets.length,0);
 assert.equal(app.bridge.exportSnapshot().people[0].photo,photo);
 const backup=JSON.stringify(app.bridge.exportSnapshot());
-app=boot({'monviora-family-v1':backup});app.test.openPerson('second');assert.equal(app.test.get().state.accounts[0].opening,66);
+app=boot({'monviora-family-v1':backup});app.test.openPerson('second');assert.equal(app.test.get().state.accounts[0].opening,66);assert.equal(app.test.get().state.budgets[0].amount,500);
+app.test.get().state.transactions.push({id:'expense',type:'expense',date:app.test.currentMonthKey()+'-04',category:'Groceries',amount:125});app.test.renderBudgets();
+assert.match(app.elements.get('budgetSpent').textContent,/125/);assert.match(app.elements.get('budgetRemaining').textContent,/375/);assert.match(app.elements.get('budgetsList').innerHTML,/25% used/);
+app.test.get().state.transactions[0].amount=550;app.test.renderBudgets();assert.match(app.elements.get('budgetOverCount').textContent,/1/);assert.match(app.elements.get('budgetsList').innerHTML,/Over budget/);
 assert.equal(app.bridge.exportSnapshot().people[0].photo,photo);
 const prior=app.data.get('monviora-family-v1');
 for(const invalid of [{version:6,people:[]},{version:6,people:[{id:'a',name:'A',store:{countries:{US:{accounts:'wrong'}}}}]},{version:6,people:[snapshot.people[0],snapshot.people[0]]},{version:6,people:[{...snapshot.people[0],photo:'data:image/svg+xml;base64,PHN2Zz4='}]},{version:6,people:[{...snapshot.people[0],photo:'data:image/jpeg;base64,'+'A'.repeat(80001)}]},{}]){
@@ -39,4 +43,4 @@ for(const invalid of [{version:6,people:[]},{version:6,people:[{id:'a',name:'A',
 app.bridge.importSnapshot(legacy);assert.equal(app.bridge.exportSnapshot().people.length,1);
 app.bridge.importSnapshot(profile(222));assert.equal(app.test.get().state.accounts[0].opening,222);
 assert.equal(app.bridge.hasLocalData(),true);
-console.log('PASS: legacy migration, preserved safety copy, person/country isolation, edits, reload, full-family round trip, invalid-backup rejection, legacy import, profile photo persistence and validation, cloud bridge payload.');
+console.log('PASS: legacy migration, preserved safety copy, person/country isolation, budget persistence, edits, reload, full-family round trip, invalid-backup rejection, legacy import, profile photo persistence and validation, cloud bridge payload.');

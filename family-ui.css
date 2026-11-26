@@ -25,3 +25,26 @@ button{border-radius:10px;font-weight:600;font-size:13px;padding:11px 16px}butto
 @media(max-width:760px){.app{padding:20px 20px 48px}.top{margin-bottom:24px!important;gap:16px}#familyHome>.welcome{padding:28px;min-height:252px;margin-bottom:28px}.welcome h2{font-size:34px}.hero-art{width:230px;right:-40px;top:40px;opacity:.35}.welcome p{max-width:250px;font-size:13px}.family-sectionhead h2{font-size:18px}.family-sectionhead button{font-size:12px;padding:10px 12px}.family-grid{gap:14px}.card{padding:18px}.country-total-balance{padding:22px}.grid{gap:12px}.top .toolbar{width:auto}.top .header-theme{flex:none!important}.top .header-theme span{display:inline}.top .header-theme select{width:auto}.brand h1{font-size:21px}.family-card:hover{transform:none}}
 @media(max-width:440px){.app{padding:18px 16px 42px}.top{flex-wrap:nowrap;align-items:center}.top .header-theme span{display:none}.top .toolbar{flex-shrink:0;gap:6px}.brand{gap:9px}.brand h1{font-size:20px}.monviora-logo{width:36px;height:36px}.brand .sub{font-size:10px}.header-theme select{min-width:76px!important;padding:8px!important}.top #addBtn,.top #notifyBtn{font-size:11px;padding:8px}.country-open .top{flex-wrap:wrap}.country-open .top .toolbar{width:100%}#familyHome>.welcome{padding:26px 24px;min-height:255px}.hero-art{right:-70px;top:55px;opacity:.13}.welcome h2{font-size:34px;letter-spacing:-1.2px}.welcome p{font-size:13px}.family-card{padding:22px}.family-sectionhead{gap:8px}.family-sectionhead p{font-size:12px}.country-dashboard-name{font-size:18px}.country-portfolio .sectionhead .toolbar{width:100%}#countryWelcome h2{font-size:28px}.family-grid{grid-template-columns:1fr}}
 :root[data-theme=dark] .family-card button.open-person:not(.secondary):not(.danger){color:var(--brand)}
+
+/* Mobile family landing profiles use the same swipeable balance-card rhythm. */
+#familyWelcome{max-width:none;margin:32px 0;padding:28px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(125deg,var(--card),var(--mint))}
+#familyWelcome h2{margin:14px 0 8px;font-size:clamp(25px,4vw,34px);line-height:1.15;letter-spacing:-.8px}
+#familyWelcome p{max-width:440px;margin:0;color:var(--muted);font-size:13px;line-height:1.65}
+#familyMemberCarousel{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:4px;overscroll-behavior-inline:contain;padding:6px 4px 18px;margin:14px -6px 4px;-webkit-overflow-scrolling:touch;scrollbar-width:thin}
+.family-member-tile{position:relative;flex:0 0 clamp(250px,38vw,320px);min-height:230px;scroll-snap-align:start;overflow:hidden;border:1px solid #476e61;border-radius:22px;background:linear-gradient(130deg,#204e42,#12332c);color:#fff;box-shadow:0 8px 24px #091e1622}
+.family-tile-open{display:flex;width:100%;height:100%;min-height:230px;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:10px;padding:22px;border:0;border-radius:inherit;background:transparent;color:inherit;text-align:left;box-shadow:none}
+.family-tile-open:hover{box-shadow:none}
+.family-tile-avatar{display:grid;width:52px;height:52px;flex:0 0 52px;place-items:center;overflow:hidden;border:3px solid #ffffff45;border-radius:50%;background:#ffffff20;color:#fff;font-size:16px;font-weight:650}
+.family-tile-avatar img{width:100%;height:100%;object-fit:cover}
+.family-tile-label{margin-top:auto;color:#d0e7dc;font-size:10px;font-weight:700;letter-spacing:1.3px}
+.family-tile-name{max-width:100%;overflow-wrap:anywhere;font-size:22px;line-height:1.2;font-weight:650}
+.family-tile-count{color:#d0e7dc;font-size:12px}
+.family-tile-action{display:inline-flex;min-height:40px;align-items:center;padding:8px 13px;border:1px solid #ffffff55;border-radius:11px;background:#ffffff1c;color:#fff;font-size:12px;font-weight:650}
+.family-member-tile:focus-within{outline:3px solid #69b390;outline-offset:2px}
+@media(max-width:600px){
+ #familyWelcome{margin:22px 0;padding:22px 20px;border-radius:22px}
+ #familyMemberCarousel{gap:14px;margin-inline:-4px}
+ .family-member-tile{flex-basis:calc((100vw - 86px)*.8);min-height:230px}
+ .family-tile-open{min-height:230px;padding:20px}
+}
+@media(prefers-reduced-motion:no-preference){#familyMemberCarousel{scroll-behavior:smooth}}
